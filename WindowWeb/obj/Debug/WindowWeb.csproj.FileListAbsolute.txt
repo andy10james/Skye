@@ -1,0 +1,6 @@
+d:\documents\visual studio 2013\Projects\WindowWeb\WindowWeb\bin\WindowWeb.dll.config
+d:\documents\visual studio 2013\Projects\WindowWeb\WindowWeb\bin\WindowWeb.dll
+d:\documents\visual studio 2013\Projects\WindowWeb\WindowWeb\bin\WindowWeb.pdb
+d:\documents\visual studio 2013\Projects\WindowWeb\WindowWeb\obj\Debug\WindowWeb.csprojResolveAssemblyReference.cache
+d:\documents\visual studio 2013\Projects\WindowWeb\WindowWeb\obj\Debug\WindowWeb.dll
+d:\documents\visual studio 2013\Projects\WindowWeb\WindowWeb\obj\Debug\WindowWeb.pdb
