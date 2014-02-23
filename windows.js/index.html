@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Window test</title>
+        <style type="text/css">
+            html {
+                height: 100%;
+            }
+            body {
+                background-color: #AAA;
+                background-image: url("/content/bg.jpg");
+                background-size: cover;
+                background-attachment: fixed;
+                font-family: 'Segoe UI', Arial;
+                height: 100%;
+                margin: 0;
+            }
+            .taskbar {
+                width: 100%;
+                height: 40px;
+                background-color: rgba(0, 0, 0, 0.5);
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                z-index: 100;
+            }
+        </style>
+        <link href="/style/windows.js.css" rel="stylesheet" type="text/css" />
+        <script src="/script/jquery.2.1.0.min.js" type="text/javascript"></script>
+        <script src="/script/windows.js" type="text/javascript"></script>
+    </head>
+<body>
+    <div class="taskbar">
+
+    </div>
+    <script>
+        windows.load('body');
+        windows.openWindow('New window', true, true, true, '/content/ie.ico');
+        windows.openWindow('Second window', true, true, true, '/content/ie.ico');
+        windows.openWindow('Third window', true, true, true, '/content/ie.ico');
+    </script>
+</body>
+</html>

@@ -4,3 +4,9 @@ d:\documents\visual studio 2013\Projects\WindowWeb\WindowWeb\bin\WindowWeb.pdb
 d:\documents\visual studio 2013\Projects\WindowWeb\WindowWeb\obj\Debug\WindowWeb.csprojResolveAssemblyReference.cache
 d:\documents\visual studio 2013\Projects\WindowWeb\WindowWeb\obj\Debug\WindowWeb.dll
 d:\documents\visual studio 2013\Projects\WindowWeb\WindowWeb\obj\Debug\WindowWeb.pdb
+F:\Development\Live\windows.js\WindowWeb\bin\WindowWeb.dll.config
+F:\Development\Live\windows.js\WindowWeb\bin\WindowWeb.dll
+F:\Development\Live\windows.js\WindowWeb\bin\WindowWeb.pdb
+F:\Development\Live\windows.js\WindowWeb\obj\Debug\WindowWeb.csprojResolveAssemblyReference.cache
+F:\Development\Live\windows.js\WindowWeb\obj\Debug\WindowWeb.dll
+F:\Development\Live\windows.js\WindowWeb\obj\Debug\WindowWeb.pdb

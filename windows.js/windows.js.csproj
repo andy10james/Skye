@@ -57,11 +57,17 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="content\bg.jpg" />
+    <Content Include="content\windows.js\close.ico" />
+    <Content Include="content\ie.ico" />
     <Content Include="index.html" />
-    <Content Include="jquery.js" />
+    <Content Include="script\jquery.2.1.0.min.js" />
+    <Content Include="content\windows.js\max.ico" />
+    <Content Include="content\windows.js\min.ico" />
+    <Content Include="content\windows.js\rest.ico" />
     <Content Include="Web.config" />
-    <Content Include="windows.css" />
-    <Content Include="windows.js" />
+    <Content Include="style\windows.js.css" />
+    <Content Include="script\windows.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
