@@ -1,7 +1,7 @@
-﻿.enclosure {
+﻿body .win-js-enclosure {
     overflow: hidden;
+    position: relative;
 }
-
 .window {
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
     width: 600px;
@@ -9,6 +9,10 @@
     position: absolute;
     border: solid #444 3px;
     background-color: #FFF;
+    margin: 0;
+}
+.window.maxed {
+    border-style: solid none none none;
 }
 .window > .tb {
     background-color: #444;
@@ -25,18 +29,19 @@
 }
 
 .window > .tb > .title {
-    line-height: 20px;
+    line-height: 15px;
+    padding: 1px 3px;
 }
 
 .window > .tb > img.icon {
     float: left;
-    padding: 0 5px 0 0;
-    height: 21px;
+    margin: 2px 5px 2px 0;
+    height: 16px;
 }
 
 .window > .tb > .hide {
     float: right;
-    background-image: url("/content/windows.js/min.png");
+    background-image: url("../content/windows.js/min.png");
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -46,12 +51,27 @@
 }
 
 .window > .tb > .hide:hover {
-    background-image: url("/content/windows.js/min.hover.png");
+    background-image: url("../content/windows.js/min.hover.png");
 }
 
-.window > .tb > .restore {
+.window > .tb > .state {
     float: right;
-    background-image: url("/content/windows.js/res.png");
+    cursor: pointer;
+    background-image: url("../content/windows.js/max.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 10px;
+    width: 14px;
+    margin: 5px;
+}
+
+.window > .tb > .state:hover {
+    background-image: url("../content/windows.js/max.hover.png");
+}
+
+.window.maxed > .tb > .state {
+    float: right;
+    background-image: url("../content/windows.js/res.png");
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -60,28 +80,13 @@
     margin: 5px;
 }
 
-.window > .tb > .restore:hover {
-    background-image: url("/content/windows.js/res.hover.png");
-}
-
-.window > .tb > .maximise {
-    float: right;
-    cursor: pointer;
-    background-image: url("/content/windows.js/max.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    height: 10px;
-    width: 14px;
-    margin: 5px;
-}
-
-.window > .tb > .maximise:hover {
-    background-image: url("/content/windows.js/max.hover.png");
+.window.maxed > .tb > .state:hover {
+    background-image: url("../content/windows.js/res.hover.png");
 }
 
 .window > .tb > .close {
     float: right;
-    background-image: url("/content/windows.js/close.png");
+    background-image: url("../content/windows.js/close.png");
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -91,7 +96,7 @@
 }
 
 .window > .tb > .close:hover {
-    background-image: url("/content/windows.js/close.hover.png");
+    background-image: url("../content/windows.js/close.hover.png");
 }
 
 .window > .content {
