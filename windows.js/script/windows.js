@@ -67,12 +67,13 @@ var windows = {
         if (ws.state) tb_maximise.click(windows.internal.fn.wintbMaxClick);
         if (ws.state) tb_title.dblclick(windows.internal.fn.wintbMaxClick);
         if (ws.hide) tb_hide.click(windows.internal.fn.wintbHideClick);
-        tb.mousedown(windows.internal.fn.wintbMouseDown);
+        if (ws.movable) tb.mousedown(windows.internal.fn.wintbMouseDown);
         win.mousedown(windows.internal.fn.winMouseDown);
         win.hide().appendTo(enclosure);
         windows.allWindows.push(win);
         windows.bringToFront(win);
         win.fadeIn(windows.settings.speed);
+        return win;
     },
     max: function (win) {
         if (windows.isMaxedWindow(win)) return;
@@ -235,5 +236,5 @@ var windows = {
     },
 };
 $.fn.openWindow = function(settings) {
-    windows.open(settings, $(this));
+    return windows.open(settings, $(this));
 };

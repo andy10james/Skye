@@ -60,12 +60,20 @@
                 margin-top: -110px;
                 margin-left: -452.5px;
                 height: 195px;
-            
+            }
+            #modal {
+                background-color: rgba(0, 0, 0, 0.7);
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                display: none;
             }
         </style>
         <link href="style/windows.js.css" rel="stylesheet" type="text/css" />
         <script src="script/jquery.2.1.0.min.js" type="text/javascript"></script>
-        <script src="script/windows.js.mercury.1.0.0.min.js" type="text/javascript"></script>
+        <script src="script/windows.js" type="text/javascript"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 windows.load({
@@ -85,9 +93,26 @@
                         hide: true,
                         state: true,
                         close: true,
-                        icon: '/content/ico.ico'
+                        movable: true,
+                        modal: false,
+                        icon: 'content/ico.ico'
                     });
-                    $('body').openWindow(windows.presets.message);
+                });
+                $("#context #createModalWindow").click(function (e) {
+                    $("#modal").show();
+                    windows.open({
+                        title: 'You created a modal window!',
+                        top: (windows.settings.enclosure.height() / 2) - 120,
+                        left: (windows.settings.enclosure.width() / 2) - 300,
+                        width: 600,
+                        height: 240,
+                        hide: false,
+                        state: false,
+                        close: true,
+                        movable: false,
+                        modal: true,
+                        icon: null
+                    }, $("#modal"));
                 });
                 $(".enclosure").contextmenu(function (e) {
                     $("#context").hide();
@@ -132,10 +157,14 @@
             <ul id="createWindow">
                 Create Window
             </ul>
+            <ul id="createModalWindow">
+                Create Modal Window
+            </ul>
             <ul onclick="document.location.reload()">
                 Refresh page
             </ul>
         </div>
+        <div id="modal"></div>
     </div>
     <div class="taskbar"></div>
 </body>

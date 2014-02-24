@@ -57,14 +57,24 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="content\audio\startup.mp3" />
+    <Content Include="content\audio\startup.wav" />
     <Content Include="content\bg.jpg" />
-    <Content Include="content\windows.js\close.ico" />
-    <Content Include="content\ie.ico" />
+    <Content Include="content\ico.ico" />
+    <Content Include="content\windows.js.png" />
+    <Content Include="content\windows.js\close.hover.png" />
+    <Content Include="content\windows.js\close.png" />
+    <Content Include="content\windows.js\ico.ico" />
+    <Content Include="content\windows.js\ico.png" />
+    <Content Include="content\windows.js\max.hover.png" />
+    <Content Include="content\windows.js\max.png" />
+    <Content Include="content\windows.js\min.hover.png" />
+    <Content Include="content\windows.js\min.png" />
+    <Content Include="content\windows.js\res.hover.png" />
+    <Content Include="content\windows.js\res.png" />
     <Content Include="index.html" />
     <Content Include="script\jquery.2.1.0.min.js" />
-    <Content Include="content\windows.js\max.ico" />
-    <Content Include="content\windows.js\min.ico" />
-    <Content Include="content\windows.js\rest.ico" />
+    <Content Include="script\windows.js.mercury.1.0.0.min.js" />
     <Content Include="Web.config" />
     <Content Include="style\windows.js.css" />
     <Content Include="script\windows.js" />
@@ -73,6 +83,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="content\windows.psd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
