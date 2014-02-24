@@ -1,4 +1,8 @@
-﻿var windows = {
+﻿/*! windows.js.mercury (v1.0.0) | © 2014 Andrew James (me@andyjames.it) | 
+Released under the GNU General Public License, version 3 (GPL-3.0)
+http://opensource.org/licenses/GPL-3.0 
+*/
+var windows = {
     settings: {
         enclosure: 'body',
         speed: 200,
@@ -12,7 +16,9 @@
             width: 300,
             hide: true,
             state: true,
-            close: true, 
+            close: true,
+            movable: true,
+            modal: false,
             icon: '../content/windows.js/ico.ico'
         },
         message: {
@@ -24,6 +30,8 @@
             hide: false,
             state: false,
             close: false,
+            movable: false,
+            modal: true,
             icon: null
         },
     },
@@ -38,10 +46,11 @@
         $(window).mousemove(windows.internal.fn.globalMouseMove);
         $(window).resize(windows.internal.fn.globalResize);
     },
-    open: function (settings) {
+    open: function (settings, enclosure) {
         var ws = {};
         $.extend(ws, windows.presets.default);
         $.extend(ws, settings);
+        if (enclosure == null) enclosure = windows.settings.enclosure;
         var win, tb, tb_title, tb_hide, tb_maximise, tb_close, tb_icon;
         win = $('<div/>', { class: 'window', id: windows.internal.guid() });
         win.css({ top: ws.top, left: ws.left, width: ws.width, height: ws.height });
@@ -60,7 +69,7 @@
         if (ws.hide) tb_hide.click(windows.internal.fn.wintbHideClick);
         tb.mousedown(windows.internal.fn.wintbMouseDown);
         win.mousedown(windows.internal.fn.winMouseDown);
-        win.hide().appendTo(windows.settings.enclosure);
+        win.hide().appendTo(enclosure);
         windows.allWindows.push(win);
         windows.bringToFront(win);
         win.fadeIn(windows.settings.speed);
@@ -225,6 +234,6 @@
 
     },
 };
-$.fn.open = function() {
-    alert(this[0] + " is rubbish!");
+$.fn.openWindow = function(settings) {
+    windows.open(settings, $(this));
 };
