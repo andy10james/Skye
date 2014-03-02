@@ -27,12 +27,13 @@
             .enclosure {
                 width: 100%;
                 height: 96%;
-                overflow: hidden;
+                z-index: 0;
             }
             #context {
                 background-color: rgba(0, 0, 0, 0.6);
                 color: #FFF;
                 padding: 2px;
+                z-index: 100;
             }
             #context ul {
                 margin: 0;
@@ -52,6 +53,7 @@
                 left:0;
                 right: 0;
                 bottom: 0;
+                z-index: 1;
             }
             #splash img {
                 position: absolute;
@@ -78,7 +80,7 @@
             $(document).ready(function() {
                 windows.load({
                     enclosure: '.enclosure',
-                    speed: 100
+                    speed: 300
                 });
                 $(".enclosure").click(function (e) {
                     $("#context").fadeOut(300);
@@ -99,7 +101,6 @@
                     });
                 });
                 $("#context #createModalWindow").click(function (e) {
-                    $("#modal").show();
                     windows.open({
                         title: 'You created a modal window!',
                         top: (windows.settings.enclosure.height() / 2) - 120,
@@ -112,7 +113,21 @@
                         movable: false,
                         modal: true,
                         icon: null
-                    }, $("#modal"));
+                    });
+                });
+                $("#context #createFlexibleModalWindow").click(function (e) {
+                    windows.open({
+                        title: 'You created a flexible modal window!',
+                        top: 100,
+                        left: 100,
+                        width: 400,
+                        height: 540,
+                        hide: true,
+                        state: true,
+                        close: true,
+                        movable: true,
+                        modal: true
+                    });
                 });
                 $(".enclosure").contextmenu(function (e) {
                     $("#context").hide();
@@ -154,17 +169,11 @@
     
     <div class="enclosure">
         <div id="context" style="display: none">
-            <ul id="createWindow">
-                Create Window
-            </ul>
-            <ul id="createModalWindow">
-                Create Modal Window
-            </ul>
-            <ul onclick="document.location.reload()">
-                Refresh page
-            </ul>
+            <ul id="createWindow"> Create Window </ul>
+            <ul id="createModalWindow"> Create Modal Window </ul>
+            <ul id="createFlexibleModalWindow"> Create Flexible Modal Window </ul>
+            <ul onclick="document.location.reload()"> Refresh page </ul>
         </div>
-        <div id="modal"></div>
     </div>
     <div class="taskbar"></div>
 </body>

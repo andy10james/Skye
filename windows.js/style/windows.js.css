@@ -2,7 +2,7 @@
     overflow: hidden;
     position: relative;
 }
-.window {
+.win-js-window {
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
     width: 600px;
     height: 750px;
@@ -11,15 +11,24 @@
     background-color: #FFF;
     margin: 0;
 }
-.window.maxed {
+.win-js-modal {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #171717;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.win-js-window.win-js-maxed {
     border-style: solid none none none;
 }
-.window > .tb {
+.win-js-window > .win-js-tb {
     background-color: #444;
     color: #EEE;
     font-size: small;
-    padding: 0 4px 4px 4px;
     cursor: default;
+    padding: 0 4px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -27,82 +36,92 @@
     -ms-user-select: none;
     user-select: none;
 }
-
-.window > .tb > .title {
-    line-height: 15px;
-    padding: 1px 3px;
+.win-js-window.win-js-movable > .win-js-tb {
+    cursor: url("../content/windows.js/open-grab.cur"), auto;
 }
-
-.window > .tb > img.icon {
+.win-js-window.win-js-moving > .win-js-tb {
+    cursor: url("../content/windows.js/closed-grab.cur"), auto;
+}
+.win-js-window > .win-js-tb > img.win-js-icon {
     float: left;
-    margin: 2px 5px 2px 0;
+    padding: 2px 8px 7px 3px;
     height: 16px;
+    cursor: default;
 }
-
-.window > .tb > .hide {
+.win-js-window > .win-js-tb > .win-js-title {
+    display: block;
+    line-height: 13px;
+    padding: 3px 0px;
+}
+.win-js-window > .win-js-tb > .win-js-staters {
+    padding-bottom: 2px;
+    cursor: default;
     float: right;
+}
+.win-js-window > .win-js-tb > .win-js-staters > .win-js-hide {
+    --float: right;
+    display: inline-block;
     background-image: url("../content/windows.js/min.png");
-    background-size: contain;
+    background-size: auto 10px;
     background-repeat: no-repeat;
-    cursor: pointer;
-    height: 10px;
-    width: 10px;
-    margin: 5px;
-}
-
-.window > .tb > .hide:hover {
-    background-image: url("../content/windows.js/min.hover.png");
-}
-
-.window > .tb > .state {
-    float: right;
-    cursor: pointer;
-    background-image: url("../content/windows.js/max.png");
-    background-size: contain;
-    background-repeat: no-repeat;
+    background-position: 5px 5px;
+    cursor: default;
     height: 10px;
     width: 14px;
-    margin: 5px;
+    padding: 5px;
 }
-
-.window > .tb > .state:hover {
+.win-js-window > .win-js-tb > .win-js-staters > .win-js-hide:hover {
+    background-image: url("../content/windows.js/min.hover.png");
+}
+.win-js-window > .win-js-tb > .win-js-staters > .win-js-state {
+    --float: right;
+    display: inline-block;
+    cursor: pointer;
+    background-image: url("../content/windows.js/max.png");
+    background-size: auto 10px;
+    background-repeat: no-repeat;
+    background-position: 5px 5px;
+    cursor: default;
+    height: 10px;
+    width: 14px;
+    padding: 5px;
+}
+.win-js-window > .win-js-tb > .win-js-staters > .win-js-state:hover {
     background-image: url("../content/windows.js/max.hover.png");
 }
-
-.window.maxed > .tb > .state {
-    float: right;
+.win-js-window.maxed > .win-js-tb > .win-js-staters > .win-js-state {
+    --float: right;
+    display: inline-block;
     background-image: url("../content/windows.js/res.png");
-    background-size: contain;
+    background-size: auto 10px;
     background-repeat: no-repeat;
-    cursor: pointer;
+    background-position: 5px 5px;
+    cursor: default;
     height: 10px;
     width: 10px;
-    margin: 5px;
+    padding: 5px;
 }
-
-.window.maxed > .tb > .state:hover {
+.win-js-window.maxed > .win-js-tb > .win-js-staters > .win-js-state:hover {
     background-image: url("../content/windows.js/res.hover.png");
 }
-
-.window > .tb > .close {
-    float: right;
+.win-js-window > .win-js-tb > .win-js-staters > .win-js-close {
+    --float: right;
+    display: inline-block;
     background-image: url("../content/windows.js/close.png");
-    background-size: contain;
+    background-size: auto 10px;
     background-repeat: no-repeat;
-    cursor: pointer;
+    background-position: 5px 5px;
+    cursor: default;
     height: 10px;
     width: 10px;
-    margin: 5px;
+    padding: 5px;
 }
-
-.window > .tb > .close:hover {
+.win-js-window > .win-js-tb > .win-js-staters > .win-js-close:hover {
     background-image: url("../content/windows.js/close.hover.png");
 }
-
-.window > .content {
+.win-js-window > .win-js-content {
     width: 100%;
 }
-
-.clear {
+.win-js-clear {
     clear: both;
 }
