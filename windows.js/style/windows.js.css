@@ -28,7 +28,6 @@
     color: #EEE;
     font-size: small;
     cursor: default;
-    padding: 0 4px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -44,7 +43,7 @@
 }
 .win-js-window > .win-js-tb > img.win-js-icon {
     float: left;
-    padding: 2px 8px 7px 3px;
+    padding: 2px 8px 7px 5px;
     height: 16px;
     cursor: default;
 }
@@ -55,11 +54,11 @@
 }
 .win-js-window > .win-js-tb > .win-js-staters {
     padding-bottom: 2px;
+    padding-right: 4px;
     cursor: default;
     float: right;
 }
 .win-js-window > .win-js-tb > .win-js-staters > .win-js-hide {
-    --float: right;
     display: inline-block;
     background-image: url("../content/windows.js/min.png");
     background-size: auto 10px;
@@ -89,7 +88,7 @@
 .win-js-window > .win-js-tb > .win-js-staters > .win-js-state:hover {
     background-image: url("../content/windows.js/max.hover.png");
 }
-.win-js-window.maxed > .win-js-tb > .win-js-staters > .win-js-state {
+.win-js-window.win-js-maxed > .win-js-tb > .win-js-staters > .win-js-state {
     --float: right;
     display: inline-block;
     background-image: url("../content/windows.js/res.png");
@@ -101,7 +100,7 @@
     width: 10px;
     padding: 5px;
 }
-.win-js-window.maxed > .win-js-tb > .win-js-staters > .win-js-state:hover {
+.win-js-window.win-js-maxed > .win-js-tb > .win-js-staters > .win-js-state:hover {
     background-image: url("../content/windows.js/res.hover.png");
 }
 .win-js-window > .win-js-tb > .win-js-staters > .win-js-close {

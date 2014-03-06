@@ -142,7 +142,8 @@
                 $(window).contextmenu(function (e) {
                     return false;
                 });
-                setTimeout(startSplash, 1000);
+                //$("#splash").show();
+                //setTimeout(startSplash, 1000);
                 function startSplash() {
                     $("#splash img").fadeIn(2000);
                     $("#splash audio")[0].play();
@@ -159,7 +160,7 @@
         </script>
     </head>
 <body>
-    <div id="splash">
+    <div id="splash" style="display: none">
         <img src="content/windows.js.png" style="display: none"/>
         <audio>
             <source src="content/audio/startup.wav" type="audio/wav">
@@ -172,7 +173,7 @@
             <ul id="createWindow"> Create Window </ul>
             <ul id="createModalWindow"> Create Modal Window </ul>
             <ul id="createFlexibleModalWindow"> Create Flexible Modal Window </ul>
-            <ul onclick="document.location.reload()"> Refresh page </ul>
+            <ul onclick="windows.closeAll();"> Refresh page </ul>
         </div>
     </div>
     <div class="taskbar"></div>

@@ -94,8 +94,7 @@ var windows = {
         win.data('res-w', win.width());
         win.data('res-h', win.height());
         windows.internal.animateToMax(win);
-        if (!windows.isMaxedWindow(win))
-            windows.maxedWindows.push(win);
+        windows.maxedWindows.push(win);
     },
     res: function (win) {
         if (!windows.isMaxedWindow(win)) return;
@@ -133,7 +132,6 @@ var windows = {
                     win.parents('.win-js-modal').hide();
                 }
             });
-        
         windows.hiddenWindows.push(win);
     },
     show: function (win) {
@@ -148,20 +146,18 @@ var windows = {
         win.fadeOut(
             windows.settings.speed,
             function () {
-                if (windows.isHiddenWindow(win)) {
-                    windows.internal.removeHiddenWindow(win);
-                }
-                if (windows.isMaxedWindow(win)) {
-                    windows.internal.removeMaxedWindow(win);
-                }
                 if (windows.isModalWindow(win)) {
                     win.parents('.win-js-modal').remove();
-                    windows.internal.removeModalWindow(win);
                 } else {
                     win.remove();
                 }
                 windows.internal.removeWindow(win);
             });
+    },
+    closeAll: function () {
+        $.each(windows.allWindows, function () {
+            windows.close(this);
+        });
     },
     bringToFront: function (win) {
         if (windows.isModalWindow(win)) {
@@ -176,22 +172,25 @@ var windows = {
         win.css({ 'z-index': windows.allWindows.length });
     },
     isMaxedWindow: function (win) {
-        for (var i = 0; i < windows.maxedWindows.length; i++)
-            if (windows.maxedWindows[i].is(win))
-                return true;
-        return false;
+        var result = false;
+        $.each(windows.maxedWindows, function (i) {
+            if (this.is(win)) result = true;
+        });
+        return result;
     },
     isHiddenWindow: function (win) {
-        for (var i = 0; i < windows.hiddenWindows.length; i++)
-            if (windows.hiddenWindows[i].is(win))
-                return true;
-        return false;
+        var result = false;
+        $.each(windows.hiddenWindows, function (i) {
+            if (this.is(win)) result = true;
+        });
+        return result;
     },
     isModalWindow: function (win) {
-        for (var i = 0; i < windows.modalWindows.length; i++)
-            if (windows.modalWindows[i].is(win))
-                return true;
-        return false;
+        var result = false;
+        $.each(windows.modalWindows, function (i) {
+            if (this.is(win)) result = true;
+        });
+        return result;
     },
     internal: {
         animateToMax: function (win) {
@@ -206,25 +205,27 @@ var windows = {
             }, windows.settings.speed);
         },
         removeMaxedWindow: function (win) {
-            for (var i = 0; i < windows.maxedWindows.length; i++)
-                if (windows.maxedWindows[i].is(win))
-                    windows.maxedWindows.splice(i, 1);
+            $.each(windows.maxedWindows, function (i) {
+                if (this.is(win)) windows.maxedWindows.splice(i, 1);
+            });
         },
         removeHiddenWindow: function (win) {
-            for (var i = 0; i < windows.hiddenWindows.length; i++)
-                if (windows.hiddenWindows[i].is(win))
-                    windows.hiddenWindows.splice(i, 1);
+            $.each(windows.hiddenWindows, function (i) {
+                if (this.is(win)) windows.hiddenWindows.splice(i, 1);
+            });
         },
         removeModalWindow: function (win) {
-            for (var i = 0; i < windows.modalWindows.length; i++)
-                if (windows.modalWindows[i].is(win))
-                    windows.modalWindows.splice(i, 1);
+            $.each(windows.modalWindows, function (i) {
+                if (this.is(win)) windows.modalWindows.splice(i, 1);
+            });
         },
         removeWindow: function (win) {
+            windows.internal.removeModalWindow(win);
+            windows.internal.removeHiddenWindow(win);
             windows.internal.removeMaxedWindow(win);
-            for (var i = 0; i < windows.allWindows.length; i++)
-                if (windows.allWindows[i].is(win))
-                    windows.allWindows.splice(i, 1);
+            $.each(windows.allWindows, function (i) {
+                if (this.is(win)) windows.allWindows.splice(i, 1);
+            });
         },
         guid: function() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -271,10 +272,19 @@ var windows = {
                 var win = windows.internal.cw.cw;
                 if (windows.isMaxedWindow(win))
                     windows.resTo(win, { width: win.data('res-w'),
-                        height: win.data('res-h') });
+                        height: win.data('res-h')
+                    });
+                var proposedLeft = e.pageX - windows.internal.cw.cl;
+                var proposedTop = e.pageY - windows.internal.cw.ct;
+                if (proposedTop + win.height() > windows.settings.enclosure.height())
+                    proposedTop = windows.settings.enclosure.height() - win.height();
+                if (proposedLeft + win.width() > windows.settings.enclosure.width())
+                    proposedLeft = windows.settings.enclosure.width() - win.width();
+                if (proposedTop < 0) proposedTop = 0;
+                if (proposedLeft < 0) proposedLeft = 0;
                 win.css({
-                    top: e.pageY - windows.internal.cw.ct,
-                    left: e.pageX - windows.internal.cw.cl,
+                    top: proposedTop,
+                    left: proposedLeft,
                     position: 'absolute'
                 });
             },
