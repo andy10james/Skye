@@ -157,8 +157,8 @@ var windows = {
             });
     },
     closeAll: function () {
-        $.each(windows.allWindows, function () {
-            windows.close(this);
+        $.each(windows.allWindows, function (k, v) {
+            windows.close(v);
         });
     },
     bringToFront: function (win) {
@@ -167,33 +167,33 @@ var windows = {
             focus = win.parents('.win-js-modal');
         }
         var winIndex = focus.css('z-index') - 1;
-        $(windows.allWindows).each(function (i) {
-            $(this).removeClass('win-js-active');
-            var curIndex = $(this).css('z-index');
-            if ($(this).css('z-index') > winIndex)
-                $(this).css({ 'z-index': curIndex - 1 });
+        $(windows.allWindows).each(function (k, v) {
+            $(v).removeClass('win-js-active');
+            var curIndex = $(v).css('z-index');
+            if ($(v).css('z-index') > winIndex)
+                $(v).css({ 'z-index': curIndex - 1 });
         });
         focus.css({ 'z-index': windows.allWindows.length });
         win.addClass('win-js-active');
     },
     isMaxedWindow: function (win) {
         var result = false;
-        $.each(windows.maxedWindows, function (i) {
-            if (this.is(win)) result = true;
+        $.each(windows.maxedWindows, function (k, v) {
+            if (v.is(win)) result = true;
         });
         return result;
     },
     isHiddenWindow: function (win) {
         var result = false;
-        $.each(windows.hiddenWindows, function (i) {
-            if (this.is(win)) result = true;
+        $.each(windows.hiddenWindows, function (k, v) {
+            if (v.is(win)) result = true;
         });
         return result;
     },
     isModalWindow: function (win) {
         var result = false;
-        $.each(windows.modalWindows, function (i) {
-            if (this.is(win)) result = true;
+        $.each(windows.modalWindows, function (k, v) {
+            if (v.is(win)) result = true;
         });
         return result;
     },
@@ -223,26 +223,26 @@ var windows = {
             }, windows.settings.speed);
         },
         removeMaxedWindow: function (win) {
-            $.each(windows.maxedWindows, function (i) {
-                if (this.is(win)) windows.maxedWindows.splice(i, 1);
+            $.each(windows.maxedWindows, function (k, v) {
+                if (v.is(win)) windows.maxedWindows.splice(k, 1);
             });
         },
         removeHiddenWindow: function (win) {
-            $.each(windows.hiddenWindows, function (i) {
-                if (this.is(win)) windows.hiddenWindows.splice(i, 1);
+            $.each(windows.hiddenWindows, function (k, v) {
+                if (v.is(win)) windows.hiddenWindows.splice(k, 1);
             });
         },
         removeModalWindow: function (win) {
-            $.each(windows.modalWindows, function (i) {
-                if (this.is(win)) windows.modalWindows.splice(i, 1);
+            $.each(windows.modalWindows, function (k, v) {
+                if (v.is(win)) windows.modalWindows.splice(k, 1);
             });
         },
         removeWindow: function (win) {
             windows.internal.removeModalWindow(win);
             windows.internal.removeHiddenWindow(win);
             windows.internal.removeMaxedWindow(win);
-            $.each(windows.allWindows, function (i) {
-                if (this.is(win)) windows.allWindows.splice(i, 1);
+            $.each(windows.allWindows, function (k, v) {
+                if (v.is(win)) windows.allWindows.splice(k, 1);
             });
         },
         guid: function() {
