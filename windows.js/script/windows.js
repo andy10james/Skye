@@ -5,6 +5,8 @@ http://opensource.org/licenses/GPL-3.0
 var windows = {
     settings: {
         enclosure: 'body',
+        boundary: 0,
+        maxToBoundary: false,
         speed: 200,
     },
     presets: {
@@ -165,11 +167,13 @@ var windows = {
         }
         var winIndex = win.css('z-index') - 1;
         $(windows.allWindows).each(function (i) {
+            $(this).removeClass('win-js-active');
             var curIndex = $(this).css('z-index');
             if ($(this).css('z-index') > winIndex)
                 $(this).css({ 'z-index': curIndex - 1 });
         });
         win.css({ 'z-index': windows.allWindows.length });
+        win.addClass('win-js-active');
     },
     isMaxedWindow: function (win) {
         var result = false;
@@ -195,13 +199,26 @@ var windows = {
     internal: {
         animateToMax: function (win) {
             win.stop();
+            var top = windows.settings.enclosure.offset().top;
+            var left = windows.settings.enclosure.offset().left;
+            var width = windows.settings.enclosure.width() - parseInt(win.css('border-left-width')) - parseInt(win.css('border-right-width'))
+                - parseInt(win.css('padding-left')) - parseInt(win.css('padding-right'));
+            var height= windows.settings.enclosure.height() - parseInt(win.css('border-top-width')) - parseInt(win.css('border-bottom-width'))
+                - parseInt(win.css('padding-top')) - parseInt(win.css('padding-top'));
+            if (windows.settings.maxToBoundary) {
+                var boundary = parseInt(windows.settings.boundary);
+                if (boundary != null) {
+                    top = top - boundary;
+                    left = left - boundary;
+                    width = width + 2*boundary;
+                    height = height + 2*boundary;
+                }
+            }
             win.animate({
-                top: windows.settings.enclosure.offset().top,
-                left: windows.settings.enclosure.offset().left,
-                width: windows.settings.enclosure.width() - parseInt(win.css('border-left-width')) - parseInt(win.css('border-right-width'))
-                - parseInt(win.css('padding-left')) - parseInt(win.css('padding-right')),
-                height: windows.settings.enclosure.height() - parseInt(win.css('border-top-width')) - parseInt(win.css('border-bottom-width'))
-                - parseInt(win.css('padding-top')) - parseInt(win.css('padding-top')),
+                top: top,
+                left: left,
+                width: width,
+                height: height,
             }, windows.settings.speed);
         },
         removeMaxedWindow: function (win) {
@@ -274,14 +291,17 @@ var windows = {
                     windows.resTo(win, { width: win.data('res-w'),
                         height: win.data('res-h')
                     });
-                var proposedLeft = e.pageX - windows.internal.cw.cl;
                 var proposedTop = e.pageY - windows.internal.cw.ct;
-                if (proposedTop + win.height() > windows.settings.enclosure.height())
-                    proposedTop = windows.settings.enclosure.height() - win.height();
-                if (proposedLeft + win.width() > windows.settings.enclosure.width())
-                    proposedLeft = windows.settings.enclosure.width() - win.width();
-                if (proposedTop < 0) proposedTop = 0;
-                if (proposedLeft < 0) proposedLeft = 0;
+                var proposedLeft = e.pageX - windows.internal.cw.cl;
+                var boundary = parseInt(windows.settings.boundary);
+                if (boundary != null) {
+                    if (proposedTop + win.height() > windows.settings.enclosure.height() + boundary)
+                        proposedTop = (windows.settings.enclosure.height() + boundary) - win.height();
+                    if (proposedLeft + win.width() > windows.settings.enclosure.width() + boundary)
+                        proposedLeft = (windows.settings.enclosure.width() + boundary) - win.width();
+                    if (proposedTop < - boundary) proposedTop = - boundary;
+                    if (proposedLeft < - boundary) proposedLeft = - boundary;
+                }
                 win.css({
                     top: proposedTop,
                     left: proposedLeft,
@@ -294,7 +314,6 @@ var windows = {
             }
         },
         cw: {},
-
     },
 };
 $.fn.openWindow = function(settings) {

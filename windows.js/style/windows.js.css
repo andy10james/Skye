@@ -2,14 +2,23 @@
     overflow: hidden;
     position: relative;
 }
+.win-js-window > .win-js-content {
+    width: 100%;
+}
 .win-js-window {
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 7px rgba(150, 90, 240, 0.8);
+    border: solid 1px #444;
     width: 600px;
     height: 750px;
     position: absolute;
-    border: solid #444 3px;
-    background-color: #FFF;
+    background-color: #444;
     margin: 0;
+}
+.win-js-window.win-js-maxed {
+    border-style: none;
+}
+.win-js-window.win-js-active {
+    border-color: rgba(150, 90, 240, 0.8);
 }
 .win-js-modal {
     position: absolute;
@@ -20,14 +29,12 @@
     background-color: #171717;
     background-color: rgba(0, 0, 0, 0.7);
 }
-.win-js-window.win-js-maxed {
-    border-style: solid none none none;
-}
 .win-js-window > .win-js-tb {
     background-color: #444;
     color: #EEE;
     font-size: small;
     cursor: default;
+    padding: 1px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -43,18 +50,19 @@
 }
 .win-js-window > .win-js-tb > img.win-js-icon {
     float: left;
-    padding: 2px 8px 7px 5px;
+    padding: 5px 8px 3px 5px;
     height: 16px;
     cursor: default;
 }
 .win-js-window > .win-js-tb > .win-js-title {
     display: block;
     line-height: 13px;
-    padding: 3px 0px;
+    padding: 6px 10px;
 }
 .win-js-window > .win-js-tb > .win-js-staters {
     padding-bottom: 2px;
     padding-right: 4px;
+    padding-top: 3px;
     cursor: default;
     float: right;
 }
@@ -73,7 +81,6 @@
     background-image: url("../content/windows.js/min.hover.png");
 }
 .win-js-window > .win-js-tb > .win-js-staters > .win-js-state {
-    --float: right;
     display: inline-block;
     cursor: pointer;
     background-image: url("../content/windows.js/max.png");
@@ -89,7 +96,6 @@
     background-image: url("../content/windows.js/max.hover.png");
 }
 .win-js-window.win-js-maxed > .win-js-tb > .win-js-staters > .win-js-state {
-    --float: right;
     display: inline-block;
     background-image: url("../content/windows.js/res.png");
     background-size: auto 10px;
@@ -104,7 +110,6 @@
     background-image: url("../content/windows.js/res.hover.png");
 }
 .win-js-window > .win-js-tb > .win-js-staters > .win-js-close {
-    --float: right;
     display: inline-block;
     background-image: url("../content/windows.js/close.png");
     background-size: auto 10px;
@@ -117,9 +122,6 @@
 }
 .win-js-window > .win-js-tb > .win-js-staters > .win-js-close:hover {
     background-image: url("../content/windows.js/close.hover.png");
-}
-.win-js-window > .win-js-content {
-    width: 100%;
 }
 .win-js-clear {
     clear: both;
