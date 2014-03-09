@@ -78,13 +78,13 @@ var windows = {
             modal = $('<div/>', { class: 'win-js-modal' });
             win.hide().appendTo(modal);
             modal.appendTo(enclosure);
-            windows.bringToFront(modal);
             windows.modalWindows.push(win);
         } else {
             win.hide().appendTo(enclosure);
             windows.bringToFront(win);
         }
         windows.allWindows.push(win);
+        windows.bringToFront(win);
         win.fadeIn(windows.settings.speed);
         return win;
     },
@@ -162,17 +162,18 @@ var windows = {
         });
     },
     bringToFront: function (win) {
+        var focus = win;
         if (windows.isModalWindow(win)) {
-            win = win.parents('.win-js-modal');
+            focus = win.parents('.win-js-modal');
         }
-        var winIndex = win.css('z-index') - 1;
+        var winIndex = focus.css('z-index') - 1;
         $(windows.allWindows).each(function (i) {
             $(this).removeClass('win-js-active');
             var curIndex = $(this).css('z-index');
             if ($(this).css('z-index') > winIndex)
                 $(this).css({ 'z-index': curIndex - 1 });
         });
-        win.css({ 'z-index': windows.allWindows.length });
+        focus.css({ 'z-index': windows.allWindows.length });
         win.addClass('win-js-active');
     },
     isMaxedWindow: function (win) {
