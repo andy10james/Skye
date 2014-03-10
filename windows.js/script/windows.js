@@ -21,7 +21,7 @@ var windows = {
             close: true,
             movable: true,
             modal: false,
-            icon: '../content/windows.js/ico.ico'
+            icon: null
         },
         message: {
             title: document.title,
