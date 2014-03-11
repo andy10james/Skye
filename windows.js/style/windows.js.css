@@ -15,7 +15,7 @@
     margin: 0;
 }
 .win-js-window.win-js-maxed {
-    border-style: none;
+    
 }
 .win-js-window.win-js-active {
     border-color: rgba(150, 90, 240, 0.8);

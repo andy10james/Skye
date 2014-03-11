@@ -72,6 +72,17 @@
                 bottom: 0;
                 display: none;
             }
+            .win-js-snap {
+                position: absolute;
+                left: 50%;
+                right: 50px;
+                top: 50px;
+                bottom: 50px;
+                width: auto;
+                height: auto;
+                background-color: rgba(150, 90, 240, 0.1);
+                box-shadow: 0 0 7px rgba(150, 90, 240, 0.3);
+            }
         </style>
         <link href="style/windows.js.css" rel="stylesheet" type="text/css" />
         <script src="script/jquery.2.1.0.min.js" type="text/javascript"></script>
@@ -176,6 +187,9 @@
             <ul id="createModalWindow"> Create Modal Window </ul>
             <ul id="createFlexibleModalWindow"> Create Flexible Modal Window </ul>
             <ul onclick="windows.closeAll();"> Refresh page </ul>
+        </div>
+        <div class="win-js-snap">
+
         </div>
     </div>
     <div class="taskbar"></div>
