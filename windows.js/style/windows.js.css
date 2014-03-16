@@ -1,6 +1,7 @@
 ﻿body .win-js-enclosure {
     overflow: hidden;
     position: relative;
+    display: block;
 }
 .win-js-window > .win-js-content {
     width: 100%;
@@ -79,10 +80,8 @@
 }
 .win-js-window > .win-js-tb > .win-js-staters > .win-js-hide {
     display: inline-block;
-    background-image: url("../content/windows.js/min.png");
+    background: url("../content/windows.js/min.png") no-repeat 5px 5px;
     background-size: auto 10px;
-    background-repeat: no-repeat;
-    background-position: 5px 5px;
     cursor: default;
     height: 10px;
     width: 14px;
@@ -93,11 +92,8 @@
 }
 .win-js-window > .win-js-tb > .win-js-staters > .win-js-state {
     display: inline-block;
-    cursor: pointer;
-    background-image: url("../content/windows.js/max.png");
+    background: url("../content/windows.js/max.png") no-repeat 5px 5px;
     background-size: auto 10px;
-    background-repeat: no-repeat;
-    background-position: 5px 5px;
     cursor: default;
     height: 10px;
     width: 17px;
@@ -115,10 +111,8 @@
 }
 .win-js-window > .win-js-tb > .win-js-staters > .win-js-close {
     display: inline-block;
-    background-image: url("../content/windows.js/close.png");
+    background: url("../content/windows.js/close.png") no-repeat 5px 5px;
     background-size: auto 10px;
-    background-repeat: no-repeat;
-    background-position: 5px 5px;
     cursor: default;
     height: 10px;
     width: 10px;

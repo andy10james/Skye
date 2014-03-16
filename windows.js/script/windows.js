@@ -7,12 +7,12 @@ var windows = {
         enclosure: 'body',
         boundary: 0,
         maxToBoundary: false,
-        speed: 200,
+        speed: 200
     },
     presets: {
         default: {
             title: document.title,
-            top: 30, 
+            top: 30,
             left: 30,
             height: 500,
             width: 300,
@@ -35,7 +35,7 @@ var windows = {
             movable: false,
             modal: true,
             icon: null
-        },
+        }
     },
     maxedWindows: [],
     hiddenWindows: [],
@@ -100,7 +100,7 @@ var windows = {
         } else if (windows.isRightSnappedWindow(win)) {
             windows.internal.removeRightSnappedWindow(win);
             win.removeClass('win-js-snapped-right');
-        } 
+        }
         if (win.data('res-t') == null) win.data('res-t', win.offset().top);
         if (win.data('res-l') == null) win.data('res-l', win.offset().left);
         if (win.data('res-w') == null) win.data('res-w', win.width());
@@ -141,7 +141,7 @@ var windows = {
             left: win.data('res-l'),
             width: win.data('res-w'),
             height: win.data('res-h')
-        }, windows.settings.speed, 
+        }, windows.settings.speed,
         function () {
             win.data('res-t', null);
             win.data('res-l', null);
@@ -161,7 +161,7 @@ var windows = {
             win.removeClass('win-js-snapped-right');
         }
         win.stop();
-        win.animate(css, windows.settings.speed, 
+        win.animate(css, windows.settings.speed,
             function () {
                 win.data('res-t', null);
                 win.data('res-l', null);
@@ -296,7 +296,7 @@ var windows = {
                     };
                     break;
                 default:
-                    return;
+                    return null;
             }
         },
         animateToMax: function (win) {
@@ -312,15 +312,15 @@ var windows = {
                 if (boundary != null) {
                     top = top - boundary;
                     left = left - boundary;
-                    width = width + 2*boundary;
-                    height = height + 2*boundary;
+                    width = width + 2 * boundary;
+                    height = height + 2 * boundary;
                 }
             }
             win.animate({
                 top: top,
                 left: left,
                 width: width,
-                height: height,
+                height: height
             }, windows.settings.speed);
         },
         removeMaxedWindow: function (win) {
@@ -375,19 +375,19 @@ var windows = {
                 if (!windows.isMaxedWindow(win)) windows.internal.cw.cl = e.pageX - swot.left;
                 else windows.internal.cw.cl = win.data('res-w') / 2;
             },
-            winMouseDown: function(e) {
+            winMouseDown: function() {
                 windows.bringToFront($(this));
             },
-            wintbCloseClick: function (e) {
+            wintbCloseClick: function () {
                 var win = $(this).parents('.win-js-window');
                 windows.close(win);
             },
-            wintbMaxClick: function (e) {
+            wintbMaxClick: function () {
                 var win = $(this).parents('.win-js-window');
                 if (windows.isMaxedWindow(win)) windows.res(win);
                 else windows.max(win);
             },
-            wintbHideClick: function (e) {
+            wintbHideClick: function () {
                 var win = $(this).parents('.win-js-window');
                 windows.hide(win);
             },
@@ -400,7 +400,7 @@ var windows = {
                     windows.max(win);
                 } else {
                     windows.snap(win, windows.snapPossible);
-                }               
+                }
                 windows.snapPossible = null;
                 windows.internal.snapGuide.fadeOut();
                 windows.internal.cw = {};
@@ -457,16 +457,16 @@ var windows = {
                     windows.internal.snapGuide.fadeOut();
                 }
             },
-            globalResize: function (e) {
+            globalResize: function () {
                 for (var i = 0; i < windows.maxedWindows.length; i++)
                     windows.internal.animateToMax(windows.maxedWindows[i]);
             }
         },
         snapGuide: null,
         snap: { top: "top", left: "left", right: "right" },
-        cw: {},
+        cw: {}
     },
-    snapPossible: null,
+    snapPossible: null
 };
 $.fn.openWindow = function(settings) {
     return windows.open(settings, $(this));
