@@ -74,7 +74,7 @@
     <Content Include="content\windows.js\res.png" />
     <Content Include="index.html" />
     <Content Include="script\jquery.2.1.0.min.js" />
-    <Content Include="script\windows.js.mercury.1.0.0.min.js" />
+    <Content Include="style\windows.js.demo.css" />
     <Content Include="Web.config" />
     <Content Include="style\windows.js.css" />
     <Content Include="script\windows.js" />
@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="content\windows.psd" />
+    <Content Include="script\windows.js.demo.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

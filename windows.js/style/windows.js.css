@@ -29,6 +29,17 @@
     background-color: #171717;
     background-color: rgba(0, 0, 0, 0.7);
 }
+.win-js-snap {
+    position: absolute;
+    left: 50%;
+    right: 50px;
+    top: 50px;
+    bottom: 50px;
+    width: auto;
+    height: auto;
+    background-color: rgba(150, 90, 240, 0.1);
+    box-shadow: 0 0 7px rgba(150, 90, 240, 0.3);
+}
 .win-js-window > .win-js-tb {
     background-color: #444;
     color: #EEE;
@@ -89,22 +100,15 @@
     background-position: 5px 5px;
     cursor: default;
     height: 10px;
-    width: 14px;
+    width: 17px;
     padding: 5px;
 }
 .win-js-window > .win-js-tb > .win-js-staters > .win-js-state:hover {
     background-image: url("../content/windows.js/max.hover.png");
 }
 .win-js-window.win-js-maxed > .win-js-tb > .win-js-staters > .win-js-state {
-    display: inline-block;
     background-image: url("../content/windows.js/res.png");
-    background-size: auto 10px;
-    background-repeat: no-repeat;
-    background-position: 5px 5px;
-    cursor: default;
-    height: 10px;
-    width: 10px;
-    padding: 5px;
+    width: 14px;
 }
 .win-js-window.win-js-maxed > .win-js-tb > .win-js-staters > .win-js-state:hover {
     background-image: url("../content/windows.js/res.hover.png");
