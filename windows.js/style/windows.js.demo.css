@@ -2,10 +2,8 @@
     height: 100%;
 }
 body {
-    background-color: #AAA;
-    background-image: url("../content/bg.jpg");
-    background-attachment: fixed;
-    font-family: 'Segoe UI', Arial;
+    background: #AAA url("../content/bg.jpg") fixed;
+    font-family: 'Segoe UI', Arial, Sans-serif;
     height: 100%;
     margin: 0;
 }
@@ -49,10 +47,12 @@ body {
     font-size: 13px;
     color: #FFF;
     line-height: 25px;
-    padding: 10px
+    padding: 10px;
+    display: block;
+    background-color: rgba(150, 90, 240, 0.8);
 }
 #debug span {
-    color: #77F;
+    color: #FFF;
     font-size: 16px;
 }
 #splash {

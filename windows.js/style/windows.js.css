@@ -47,18 +47,12 @@
     font-size: small;
     cursor: default;
     padding: 1px;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 .win-js-window.win-js-movable > .win-js-tb {
-    cursor: url("../content/windows.js/open-grab.cur"), auto;
+    cursor: url("../content/windows.js/handopen.cur"), default;
 }
 .win-js-window.win-js-moving > .win-js-tb {
-    cursor: url("../content/windows.js/closed-grab.cur"), auto;
+    cursor: url("../content/windows.js/handgrab.cur"), default;
 }
 .win-js-window > .win-js-tb > img.win-js-icon {
     float: left;

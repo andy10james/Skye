@@ -1,11 +1,11 @@
 ﻿$(document).ready(function() {
 	windows.load({
 		enclosure: '.enclosure',
-		boundary: -50,
-		maxToBoundary: true,
+		boundary: 0,
+		maxToBoundary: false,
 		speed: 300
 	});
-	$("#context #createWindow").click(function (e) {
+	$('#createWindow').click(function () {
 		windows.open({
 			title: 'You created a window!',
 			top: (windows.settings.enclosure.height() / 2) - 150,
@@ -20,7 +20,7 @@
 			icon: 'content/ico.ico'
 		});
 	});
-	$("#context #createModalWindow").click(function (e) {
+	$('#createModalWindow').click(function () {
 		windows.open({
 			title: 'You created a modal window!',
 			top: (windows.settings.enclosure.height() / 2) - 120,
@@ -35,7 +35,7 @@
 			icon: null
 		});
 	});
-	$("#context #createFlexibleModalWindow").click(function (e) {
+	$('#createFlexibleModalWindow').click(function () {
 		windows.open({
 			title: 'You created a flexible modal window!',
 			top: (windows.settings.enclosure.height() / 2) - 270,
@@ -49,24 +49,26 @@
 			modal: true
 		});
 	});
-	$(window).contextmenu(function (e) {
+	$(window).contextmenu(function () {
 		return false;
 	});
+    $(".win-js-tb").mousedown(function () { return false; });
 
 	//$("#splash").show();
 	//setTimeout(startSplash, 1000);
 	function startSplash() {
-		$("#splash img").fadeIn(2000);
-		$("#splash audio")[0].play();
+		$("#splash").find("img").fadeIn(2000);
+		$('#splash').find('audio')[0].play();
 		setTimeout(endSplash, 4000);
 	}
 	function endSplash() {
-		$("#splash img").fadeOut(2000);
+		$("#splash").find("img").fadeOut(2000);
 		setTimeout(exitSplash, 2000);
 	}
 	function exitSplash() {
 		$("#splash").fadeOut(2000);
 	}
+    $("#createWindow").click();
 });
 $(window).mousemove(function (e) {
 	$("span#mleft").html(e.pageX);

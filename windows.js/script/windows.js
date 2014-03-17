@@ -2,11 +2,13 @@
 Released under the GNU General Public License, version 3 (GPL-3.0)
 http://opensource.org/licenses/GPL-3.0 
 */
-var windows = {
+var $;
+var windows;
+windows = {
     settings: {
         enclosure: 'body',
         boundary: 0,
-        maxToBoundary: false,
+        maxToBoundary: true,
         speed: 200
     },
     presets: {
@@ -47,11 +49,11 @@ var windows = {
         $.extend(windows.settings, settings);
         windows.settings.enclosure = $(windows.settings.enclosure);
         windows.settings.enclosure.addClass('win-js-enclosure');
-        windows.internal.snapGuide = $('<div/>', { class: 'win-js-snap' });
-        windows.internal.snapGuide.hide().appendTo(windows.settings.enclosure);
-        $(window).mouseup(windows.internal.fn.globalMouseUp);
-        $(window).mousemove(windows.internal.fn.globalMouseMove);
-        $(window).resize(windows.internal.fn.globalResize);
+        windows._internal.snapGuide = $('<div/>', { class: 'win-js-snap' });
+        windows._internal.snapGuide.hide().appendTo(windows.settings.enclosure);
+        $(window).mouseup(windows._internal.fn.globalMouseUp);
+        $(window).mousemove(windows._internal.fn.globalMouseMove);
+        $(window).resize(windows._internal.fn.globalResize);
     },
     open: function (settings, enclosure) {
         var ws = {};
@@ -59,7 +61,7 @@ var windows = {
         $.extend(ws, settings);
         if (enclosure == null) enclosure = windows.settings.enclosure;
         var win, modal, tb, tb_title, tb_staters, tb_hide, tb_state, tb_close, tb_icon;
-        win = $('<div/>', { class: 'win-js-window', id: windows.internal.guid() });
+        win = $('<div/>', { class: 'win-js-window', id: windows._internal.guid() });
         win.css({ top: ws.top, left: ws.left, width: ws.width, height: ws.height });
         if (ws.movable) win.addClass('win-js-movable');
         tb = $('<div/>', { class: 'win-js-tb' }).appendTo(win);
@@ -71,13 +73,13 @@ var windows = {
         tb_title = $('<div/>', { class: 'win-js-title', text: ws.title }).appendTo(tb);
         $('<div/>', { class: 'win-js-clear' }).appendTo(tb);
         $('<div/>', { class: 'win-js-content' }).appendTo(win);
-        if (ws.close) tb_close.click(windows.internal.fn.wintbCloseClick);
-        if (ws.close && ws.icon) tb_icon.dblclick(windows.internal.fn.wintbCloseClick);
-        if (ws.state) tb_state.click(windows.internal.fn.wintbMaxClick);
-        if (ws.state) tb_title.dblclick(windows.internal.fn.wintbMaxClick);
-        if (ws.hide) tb_hide.click(windows.internal.fn.wintbHideClick);
-        if (ws.movable) tb_title.mousedown(windows.internal.fn.wintbMouseDown);
-        win.mousedown(windows.internal.fn.winMouseDown);
+        if (ws.close) tb_close.click(windows._internal.fn.wintbCloseClick);
+        if (ws.close && ws.icon) tb_icon.dblclick(windows._internal.fn.wintbCloseClick);
+        if (ws.state) tb_state.click(windows._internal.fn.wintbMaxClick);
+        if (ws.state) tb_title.dblclick(windows._internal.fn.wintbMaxClick);
+        if (ws.hide) tb_hide.click(windows._internal.fn.wintbHideClick);
+        if (ws.movable) tb_title.mousedown(windows._internal.fn.wintbMouseDown);
+        win.mousedown(windows._internal.fn.winMouseDown);
         if (ws.modal) {
             modal = $('<div/>', { class: 'win-js-modal' });
             win.hide().appendTo(modal);
@@ -95,78 +97,70 @@ var windows = {
     max: function (win) {
         if (windows.isMaxedWindow(win)) return;
         if (windows.isLeftSnappedWindow(win)) {
-            windows.internal.removeLeftSnappedWindow(win);
+            windows._internal.removeLeftSnappedWindow(win);
             win.removeClass('win-js-snapped-left');
         } else if (windows.isRightSnappedWindow(win)) {
-            windows.internal.removeRightSnappedWindow(win);
+            windows._internal.removeRightSnappedWindow(win);
             win.removeClass('win-js-snapped-right');
         }
-        if (win.data('res-t') == null) win.data('res-t', win.offset().top);
-        if (win.data('res-l') == null) win.data('res-l', win.offset().left);
-        if (win.data('res-w') == null) win.data('res-w', win.width());
-        if (win.data('res-h') == null) win.data('res-h', win.height());
+        if (win.data('win-js-res-t') == null) win.data('win-js-res-t', win.offset().top);
+        if (win.data('win-js-res-l') == null) win.data('win-js-res-l', win.offset().left);
+        if (win.data('win-js-res-w') == null) win.data('win-js-res-w', win.width());
+        if (win.data('win-js-res-h') == null) win.data('win-js-res-h', win.height());
         win.addClass('win-js-maxed');
-        windows.internal.animateToMax(win);
+        windows._internal.animateToMax(win);
         windows.maxedWindows.push(win);
     },
     snap: function (win, snap) {
-        if (snap == windows.internal.snap.top) {
+        if (snap == windows._internal.snap.top) {
             windows.max(win);
             return;
         }
-        if (snap != windows.internal.snap.left &&
-            snap != windows.internal.snap.right)
+        if (snap != windows._internal.snap.left &&
+            snap != windows._internal.snap.right)
             return;
-        if (win.data('res-t') == null) win.data('res-t', win.offset().top);
-        if (win.data('res-l') == null) win.data('res-l', win.offset().left);
-        if (win.data('res-w') == null) win.data('res-w', win.width());
-        if (win.data('res-h') == null) win.data('res-h', win.height());
-        var snapPosition = windows.internal.getSnapPosition(snap);
+        if (win.data('win-js-res-t') == null) win.data('win-js-res-t', win.offset().top);
+        if (win.data('win-js-res-l') == null) win.data('win-js-res-l', win.offset().left);
+        if (win.data('win-js-res-w') == null) win.data('win-js-res-w', win.width());
+        if (win.data('win-js-res-h') == null) win.data('win-js-res-h', win.height());
+        var snapPosition = windows._internal.getSnapPosition(snap);
         win.stop().animate(snapPosition, windows.settings.speed);
-        if (snap == windows.internal.snap.left) {
+        if (snap == windows._internal.snap.left) {
             windows.leftSnappedWindows.push(win);
             win.addClass('win-js-snapped-left');
-        } else if (snap == windows.internal.snap.right) {
+        } else if (snap == windows._internal.snap.right) {
             windows.rightSnappedWindows.push(win);
             win.addClass('win-js-snapped-right');
         }
     },
     res: function (win) {
-        if (!windows.isMaxedWindow(win)) return;
-        windows.internal.removeMaxedWindow(win);
-        win.removeClass('win-js-maxed');
-        win.stop();
-        win.animate({
-            top: win.data('res-t'),
-            left: win.data('res-l'),
-            width: win.data('res-w'),
-            height: win.data('res-h')
-        }, windows.settings.speed,
-        function () {
-            win.data('res-t', null);
-            win.data('res-l', null);
-            win.data('res-w', null);
-            win.data('res-h', null);
+        windows.resTo(win, {
+            top: win.data('win-js-res-t'),
+            left: win.data('win-js-res-l'),
+            width: win.data('win-js-res-w'),
+            height: win.data('win-js-res-h')
         });
     },
     resTo: function (win, css) {
         if (windows.isMaxedWindow(win)) {
-            windows.internal.removeMaxedWindow(win);
-            win.removeClass('win-js-maxed');
+                windows._internal.removeMaxedWindow(win);
+                win.removeClass('win-js-maxed');
         } else if (windows.isLeftSnappedWindow(win)) {
-            windows.internal.removeLeftSnappedWindow(win);
-            win.removeClass('win-js-snapped-left');
+                windows._internal.removeLeftSnappedWindow(win);
+                win.removeClass('win-js-snapped-left');
         } else if (windows.isRightSnappedWindow(win)) {
-            windows.internal.removeRightSnappedWindow(win);
-            win.removeClass('win-js-snapped-right');
-        }
-        win.stop();
-        win.animate(css, windows.settings.speed,
+                windows._internal.removeRightSnappedWindow(win);
+                win.removeClass('win-js-snapped-right');
+        } else return;
+        win.data('win-js-animating', true);
+        win.stop().animate(css,
+            windows.settings.speed,
             function () {
-                win.data('res-t', null);
-                win.data('res-l', null);
-                win.data('res-w', null);
-                win.data('res-h', null);
+                win.data('win-js-animating', false);
+                win.data('win-js-res-t', null);
+                win.data('win-js-res-l', null);
+                win.data('win-js-res-w', null);
+                win.data('win-js-res-h', null);
             });
     },
     hide: function (win) {
@@ -186,7 +180,7 @@ var windows = {
             win.parents('.win-js-modal').show();
         }
         win.fadeIn(windows.settings.speed);
-        windows.internal.removeHiddenWindow(win);
+        windows._internal.removeHiddenWindow(win);
     },
     close: function (win) {
         win.fadeOut(
@@ -197,7 +191,7 @@ var windows = {
                 } else {
                     win.remove();
                 }
-                windows.internal.removeWindow(win);
+                windows._internal.removeWindow(win);
             });
     },
     closeAll: function () {
@@ -255,7 +249,7 @@ var windows = {
         });
         return result;
     },
-    internal: {
+    _internal: {
         getSnapPosition: function (snap) {
             var boundary = parseInt(windows.settings.boundary);
             var activeWidth = windows.settings.enclosure.width();
@@ -271,7 +265,7 @@ var windows = {
                 }
             }
             switch (snap) {
-                case windows.internal.snap.top:
+                case windows._internal.snap.top:
                     return {
                         left: leftSnap,
                         top: topSnap,
@@ -279,7 +273,7 @@ var windows = {
                         height: activeHeight
                     };
                     break;
-                case windows.internal.snap.left:
+                case windows._internal.snap.left:
                     return {
                         left: leftSnap,
                         top: topSnap,
@@ -287,7 +281,7 @@ var windows = {
                         height: activeHeight
                     };
                     break;
-                case windows.internal.snap.right:
+                case windows._internal.snap.right:
                     return {
                         left: leftSnap + activeWidth / 2,
                         top: topSnap,
@@ -303,10 +297,10 @@ var windows = {
             win.stop();
             var top = windows.settings.enclosure.offset().top;
             var left = windows.settings.enclosure.offset().left;
-            var width = windows.settings.enclosure.width() - parseInt(win.css('border-left-width')) - parseInt(win.css('border-right-width'))
-                - parseInt(win.css('padding-left')) - parseInt(win.css('padding-right'));
-            var height= windows.settings.enclosure.height() - parseInt(win.css('border-top-width')) - parseInt(win.css('border-bottom-width'))
-                - parseInt(win.css('padding-top')) - parseInt(win.css('padding-top'));
+            var width = windows.settings.enclosure.width() - parseInt(win.css('border-left-width'))
+                - parseInt(win.css('border-right-width')) - parseInt(win.css('padding-left')) - parseInt(win.css('padding-right'));
+            var height = windows.settings.enclosure.height() - parseInt(win.css('border-top-width'))
+                - parseInt(win.css('border-bottom-width')) - parseInt(win.css('padding-top')) - parseInt(win.css('padding-top'));
             if (windows.settings.maxToBoundary) {
                 var boundary = parseInt(windows.settings.boundary);
                 if (boundary != null) {
@@ -349,11 +343,11 @@ var windows = {
             });
         },
         removeWindow: function (win) {
-            windows.internal.removeModalWindow(win);
-            windows.internal.removeHiddenWindow(win);
-            windows.internal.removeMaxedWindow(win);
-            windows.internal.removeLeftSnappedWindow(win);
-            windows.internal.removeRightSnappedWindow(win);
+            windows._internal.removeModalWindow(win);
+            windows._internal.removeHiddenWindow(win);
+            windows._internal.removeMaxedWindow(win);
+            windows._internal.removeLeftSnappedWindow(win);
+            windows._internal.removeRightSnappedWindow(win);
             $.each(windows.allWindows, function (k, v) {
                 if (v.is(win)) windows.allWindows.splice(k, 1);
             });
@@ -370,10 +364,12 @@ var windows = {
                 win.removeClass('win-js-movable');
                 win.addClass('win-js-moving');
                 var swot = win.offset();
-                windows.internal.cw.cw = win;
-                windows.internal.cw.ct = e.pageY - swot.top;
-                if (!windows.isMaxedWindow(win)) windows.internal.cw.cl = e.pageX - swot.left;
-                else windows.internal.cw.cl = win.data('res-w') / 2;
+                windows._internal.cw.cw = win;
+                windows._internal.cw.ct = e.pageY - swot.top;
+                if (!windows.isMaxedWindow(win)) windows._internal.cw.cl = e.pageX - swot.left;
+                else windows._internal.cw.cl = win.data('win-js-res-w') / 2;
+                windows.bringToFront(win);
+                return false;
             },
             winMouseDown: function() {
                 windows.bringToFront($(this));
@@ -392,31 +388,31 @@ var windows = {
                 windows.hide(win);
             },
             globalMouseUp: function () {
-                if (windows.internal.cw.cw == null) return;
-                var win = windows.internal.cw.cw;
+                if (windows._internal.cw.cw == null) return;
+                var win = windows._internal.cw.cw;
                 win.removeClass('win-js-moving');
                 win.addClass('win-js-movable');
-                if (windows.snapPossible == windows.internal.snap.top) {
+                if (windows.snapPossible == windows._internal.snap.top) {
                     windows.max(win);
                 } else {
                     windows.snap(win, windows.snapPossible);
                 }
                 windows.snapPossible = null;
-                windows.internal.snapGuide.fadeOut();
-                windows.internal.cw = {};
+                windows._internal.snapGuide.fadeOut();
+                windows._internal.cw = {};
             },
             globalMouseMove: function (e) {
-                if (windows.internal.cw.cw == null) return;
-                var win = windows.internal.cw.cw;
+                if (windows._internal.cw.cw == null) return;
+                var win = windows._internal.cw.cw;
                 if (windows.isMaxedWindow(win) ||
                     windows.isLeftSnappedWindow(win) ||
                     windows.isRightSnappedWindow(win))
                     windows.resTo(win, {
-                        width: win.data('res-w'),
-                        height: win.data('res-h')
+                        width: win.data('win-js-res-w'),
+                        height: win.data('win-js-res-h')
                     });
-                var proposedTop = e.pageY - windows.internal.cw.ct;
-                var proposedLeft = e.pageX - windows.internal.cw.cl;
+                var proposedTop = e.pageY - windows._internal.cw.ct;
+                var proposedLeft = e.pageX - windows._internal.cw.cl;
                 var boundary = parseInt(windows.settings.boundary);
                 var snap = null;
                 if (boundary != null) {
@@ -425,15 +421,15 @@ var windows = {
                     }
                     if (proposedLeft + win.width() > windows.settings.enclosure.width() + boundary) {
                         proposedLeft = (windows.settings.enclosure.width() + boundary) - win.width();
-                        snap = windows.internal.snap.right;
+                        snap = windows._internal.snap.right;
                     }
                     if (proposedTop < -boundary) {
                         proposedTop = -boundary;
-                        snap = windows.internal.snap.top;
+                        snap = windows._internal.snap.top;
                     }
                     if (proposedLeft < -boundary) {
                         proposedLeft = -boundary;
-                        snap = windows.internal.snap.left;
+                        snap = windows._internal.snap.left;
                     }
                 }
                 win.css({
@@ -441,11 +437,12 @@ var windows = {
                     left: proposedLeft,
                     position: 'absolute'
                 });
-                if (snap != null && !windows.snapPossible) {
+                //TODO: Add better tracking for animating windows, possibly contained windows._internal.animate function.
+                if (snap != null && !windows.snapPossible && !win.data('win-js-animating')) {
                     windows.snapPossible = snap;
                     var winOffset = win.offset();
-                    var guidePosition = windows.internal.getSnapPosition(snap);
-                    windows.internal.snapGuide.stop().css({
+                    var guidePosition = windows._internal.getSnapPosition(snap);
+                    windows._internal.snapGuide.stop().css({
                         opacity: 1,
                         left: winOffset.left,
                         top: winOffset.top,
@@ -454,12 +451,12 @@ var windows = {
                     }).show().animate(guidePosition, windows.settings.speed);
                 } else if (snap == null && windows.snapPossible) {
                     windows.snapPossible = null;
-                    windows.internal.snapGuide.fadeOut();
+                    windows._internal.snapGuide.fadeOut();
                 }
             },
             globalResize: function () {
                 for (var i = 0; i < windows.maxedWindows.length; i++)
-                    windows.internal.animateToMax(windows.maxedWindows[i]);
+                    windows._internal.animateToMax(windows.maxedWindows[i]);
             }
         },
         snapGuide: null,
