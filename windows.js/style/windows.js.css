@@ -3,24 +3,6 @@
     position: relative;
     display: block;
 }
-.win-js-window > .win-js-content {
-    width: 100%;
-}
-.win-js-window {
-    box-shadow: 0 0 7px rgba(150, 90, 240, 0.8);
-    border: solid 1px #444;
-    width: 600px;
-    height: 750px;
-    position: absolute;
-    background-color: #444;
-    margin: 0;
-}
-.win-js-window.win-js-maxed {
-    
-}
-.win-js-window.win-js-active {
-    border-color: rgba(150, 90, 240, 0.8);
-}
 .win-js-modal {
     position: absolute;
     top: 0;
@@ -41,38 +23,143 @@
     background-color: rgba(150, 90, 240, 0.1);
     box-shadow: 0 0 7px rgba(150, 90, 240, 0.3);
 }
-.win-js-window > .win-js-tb {
+.win-js-window {
+    box-shadow: 0 0 7px rgba(150, 90, 240, 0.8);
+    /*border: solid 1px #444;*/
+    width: 600px;
+    height: 750px;
+    position: absolute;
+    background-color: #444;
+    margin: 0;
+}
+.win-js-window.win-js-maxed {
+
+}
+.win-js-window.win-js-active {
+    border-color: rgba(150, 90, 240, 0.8);
+}
+.win-js-window > .win-js-border {
+    position: absolute;
+}
+.win-js-window.win-js-maxed > .win-js-border {
+    display: none;
+}
+.win-js-window > .win-js-border-topleft {
+    width: 4px; height: 4px;
+    cursor: nw-resize;
+}
+.win-js-window > .win-js-border-topmiddle {
+    left: 4px; right: 4px;
+    height: 4px; width: auto;
+    cursor: n-resize;
+}
+.win-js-window > .win-js-border-topright {
+    right: 0;
+    width: 4px; height: 4px;
+    cursor: ne-resize;
+}
+.win-js-window > .win-js-border-bottomleft {
+    bottom: 0; left: 0;
+    width: 4px; height: 4px;
+    cursor: sw-resize;
+}
+.win-js-window > .win-js-border-bottommiddle {
+    bottom: 0; left: 4px; right: 4px;
+    height: 4px; width: auto;
+    cursor: s-resize;
+}
+.win-js-window > .win-js-border-bottomright {
+    bottom: 0; right: 0;
+    width: 4px; height: 4px;
+    cursor: se-resize;
+}
+.win-js-window > .win-js-border-middleleft {
+    left: 0; top: 4px; bottom: 4px;
+    width: 4px;
+    cursor: w-resize;
+}
+.win-js-window > .win-js-border-middleright {
+    right: 0; top: 4px; bottom: 4px;
+    width: 4px;
+    cursor: e-resize;
+}
+.win-js-window > .win-js-main {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    height: auto;
+    width: auto;
+}
+.win-js-window.win-js-maxed > .win-js-main {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.win-js-window > .win-js-main > .win-js-content {
+    position: absolute;
+    background-color: white;
+    height: auto;
+    width: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 25px;
+}
+.win-js-window.win-js-maxed > .win-js-main > .win-js-content {
+    top: 29px;
+}
+.win-js-window > .win-js-main > .win-js-tb {
     background-color: #444;
     color: #EEE;
     font-size: small;
     cursor: default;
-    padding: 1px;
+    padding-bottom: 2px;
+    height: 23px;
+    position: relative;
 }
-.win-js-window.win-js-movable > .win-js-tb {
+.win-js-window.win-js-maxed > .win-js-main > .win-js-tb {
+    height: 27px;
+}
+.win-js-window.win-js-maxed > .win-js-main > .win-js-tb > img.win-js-icon {
+    padding-top: 6px;
+}
+.win-js-window.win-js-maxed > .win-js-main > .win-js-tb > .win-js-title {
+     padding-top: 7px;
+ }
+.win-js-window.win-js-maxed > .win-js-main > .win-js-tb > .win-js-staters {
+    padding-top: 4px;
+}
+.win-js-window.win-js-maxed > .win-js-main > .win-js-tb {
+    height: 4px;
+}
+.win-js-window.win-js-movable > .win-js-main > .win-js-tb {
     cursor: url("../content/windows.js/handopen.cur"), default;
 }
-.win-js-window.win-js-moving > .win-js-tb {
+.win-js-window.win-js-moving > .win-js-main > .win-js-tb {
     cursor: url("../content/windows.js/handgrab.cur"), default;
 }
-.win-js-window > .win-js-tb > img.win-js-icon {
-    float: left;
-    padding: 5px 8px 3px 5px;
+.win-js-window > .win-js-main > .win-js-tb > img.win-js-icon {
+    padding: 2px 5px 8px;
     height: 16px;
     cursor: default;
+    float: left;
 }
-.win-js-window > .win-js-tb > .win-js-title {
+.win-js-window > .win-js-main > .win-js-tb > .win-js-title {
     display: block;
     line-height: 13px;
-    padding: 6px 10px;
+    padding: 3px 3px 10px;
+    width: auto;
 }
-.win-js-window > .win-js-tb > .win-js-staters {
-    padding-bottom: 2px;
-    padding-right: 4px;
-    padding-top: 3px;
+.win-js-window > .win-js-main > .win-js-tb > .win-js-staters {
     cursor: default;
     float: right;
+    padding-right: 4px;
+    padding-bottom: 2px;
 }
-.win-js-window > .win-js-tb > .win-js-staters > .win-js-hide {
+.win-js-window > .win-js-main > .win-js-tb > .win-js-staters > .win-js-hide {
     display: inline-block;
     background: url("../content/windows.js/min.png") no-repeat 5px 5px;
     background-size: auto 10px;
@@ -81,29 +168,30 @@
     width: 14px;
     padding: 5px;
 }
-.win-js-window > .win-js-tb > .win-js-staters > .win-js-hide:hover {
+.win-js-window > .win-js-main > .win-js-tb > .win-js-staters > .win-js-hide:hover {
     background-image: url("../content/windows.js/min.hover.png");
 }
-.win-js-window > .win-js-tb > .win-js-staters > .win-js-state {
+.win-js-window > .win-js-main > .win-js-tb > .win-js-staters > .win-js-state {
     display: inline-block;
     background: url("../content/windows.js/max.png") no-repeat 5px 5px;
-    background-size: auto 10px;
+    background-size: 14px;
     cursor: default;
     height: 10px;
     width: 17px;
     padding: 5px;
 }
-.win-js-window > .win-js-tb > .win-js-staters > .win-js-state:hover {
+.win-js-window > .win-js-main > .win-js-tb > .win-js-staters > .win-js-state:hover {
     background-image: url("../content/windows.js/max.hover.png");
 }
-.win-js-window.win-js-maxed > .win-js-tb > .win-js-staters > .win-js-state {
+.win-js-window.win-js-maxed > .win-js-main > .win-js-tb > .win-js-staters > .win-js-state {
     background-image: url("../content/windows.js/res.png");
+    background-size: 10px;
     width: 14px;
 }
-.win-js-window.win-js-maxed > .win-js-tb > .win-js-staters > .win-js-state:hover {
+.win-js-window.win-js-maxed > .win-js-main > .win-js-tb > .win-js-staters > .win-js-state:hover {
     background-image: url("../content/windows.js/res.hover.png");
 }
-.win-js-window > .win-js-tb > .win-js-staters > .win-js-close {
+.win-js-window > .win-js-main > .win-js-tb > .win-js-staters > .win-js-close {
     display: inline-block;
     background: url("../content/windows.js/close.png") no-repeat 5px 5px;
     background-size: auto 10px;
@@ -112,7 +200,7 @@
     width: 10px;
     padding: 5px;
 }
-.win-js-window > .win-js-tb > .win-js-staters > .win-js-close:hover {
+.win-js-window > .win-js-main > .win-js-tb > .win-js-staters > .win-js-close:hover {
     background-image: url("../content/windows.js/close.hover.png");
 }
 .win-js-clear {
