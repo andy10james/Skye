@@ -400,38 +400,40 @@ windows = {
         },
         fn: {
             borderTopLeftMouseDown: function (e) {
-                return false;
+                throw 'NotYetImplementedException';
             },
             borderTopMiddleMouseDown: function (e) {
-                return false;
+                throw 'NotYetImplementedException';
             },
             borderTopRightMouseDown: function (e) {
-                return false;
+                throw 'NotYetImplementedException';
             },
             borderMiddleLeftMouseDown: function (e) {
-                return false;
+                throw 'NotYetImplementedException';
             },
             borderMiddleRightMouseDown: function (e) {
-                return false;
+                throw 'NotYetImplementedException';
             },
             borderBottomLeftMouseDown: function (e) {
-                return false;
+                throw 'NotYetImplementedException';
             },
             borderBottomMiddleMouseDown: function (e) {
-                return false;
+                throw 'NotYetImplementedException';
             },
             borderBottomRightMouseDown: function (e) {
-                return false;
+                throw 'NotYetImplementedException';
             },
             wintbMouseDown: function(e) {
                 var win = $(this).parents('.win-js-window');
                 win.removeClass('win-js-movable');
                 win.addClass('win-js-moving');
                 var swot = win.offset();
-                windows._internal.winMoving.curWindow = win;
-                windows._internal.winMoving.topMOffset = e.pageY - swot.top < 5 ? 5 : e.pageY - swot.top;
-                if (!windows.isMaxedWindow(win)) windows._internal.winMoving.leftMOffset = e.pageX - swot.left;
-                else windows._internal.winMoving.cl = win.data('win-js-res-w') / 2;
+                windows._internal.transformingWindow.curWindow = win;
+                windows._internal.transformingWindow.translationOffset = {};
+				//todo: check this line, as this looks dodgy.
+                windows._internal.transformingWindow.translationOffset.top = e.pageY - swot.top < 5 ? 5 : e.pageY - swot.top;
+                if (!windows.isMaxedWindow(win)) windows._internal.transformingWindow.translationOffset.left = e.pageX - swot.left;
+                else windows._internal.transformingWindow.translationOffset.left = win.data('win-js-res-w') / 2;
                 windows.bringToFront(win);
                 return false;
             },
@@ -452,8 +454,8 @@ windows = {
                 windows.hide(win);
             },
             globalMouseUp: function () {
-                if (windows._internal.winMoving.curWindow == null) return;
-                var win = windows._internal.winMoving.curWindow;
+                if (windows._internal.transformingWindow.curWindow == null) return;
+                var win = windows._internal.transformingWindow.curWindow;
                 win.removeClass('win-js-moving');
                 win.addClass('win-js-movable');
                 if (windows.snapPossible == windows.snaps.top) {
@@ -463,18 +465,18 @@ windows = {
                 }
                 windows.snapPossible = null;
                 windows._internal.snapGuide.fadeOut();
-                windows._internal.winMoving = {};
+                windows._internal.transformingWindow = {};
             },
             globalMouseMove: function (e) {
-                if (windows._internal.winMoving.curWindow == null) return;
-                var win = windows._internal.winMoving.curWindow;
+                if (windows._internal.transformingWindow.curWindow == null) return;
+                var win = windows._internal.transformingWindow.curWindow;
                 if (windows.isMaxedWindow(win) || windows.isLeftSnappedWindow(win) || windows.isRightSnappedWindow(win))
                     windows.resTo(win, {
                         width: win.data('win-js-res-w'),
                         height: win.data('win-js-res-h')
                     });
-                var proposedTop = e.pageY - windows._internal.winMoving.topMOffset;
-                var proposedLeft = e.pageX - windows._internal.winMoving.leftMOffset;
+                var proposedTop = e.pageY - windows._internal.transformingWindow.translationOffset.top;
+                var proposedLeft = e.pageX - windows._internal.transformingWindow.translationOffset.left;
                 var boundary = parseInt(windows.settings.boundary);
                 var snap = null;
                 if (boundary != null) {
@@ -525,12 +527,15 @@ windows = {
             }
         },
         snapGuide: null,
-        winMoving: {
+        transformingWindow: {
             curWindow: null,
-            topMOffset: 0,
-            leftMOffset: 0
-        }
-
+            translationOffset: {
+                top: 0,
+                left: 0
+            },
+            scalingAnchor: null
+        },
+        scalingAnchor: { topLeft: "topLeft", top: "top", topRight: "topRight", centerLeft: "left", centerRight: "right", bottomLeft: "bottomLeft", bottom: "bottom", bottomRight: "bottomRight" }
     },
     snapPossible: null
 };
