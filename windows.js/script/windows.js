@@ -395,6 +395,18 @@ windows = {
                 if (v.is(win)) windows.allWindows.splice(k, 1);
             });
         },
+        setAsScaling: function (win, anchor) {
+            win.addClass('win-js-resizing');
+            windows._internal.transformingWindow.curWindow = win;
+            windows._internal.transformingWindow.scalingAnchor = anchor;
+
+        },
+        setAsTranslating: function (win, topOffset, leftOffset) {
+            win.addClass('win-js-moving');
+            windows._internal.transformingWindow.curWindow = win;
+            windows._internal.transformingWindow.translationOffset.top = topOffset;
+            windows._internal.transformingWindow.translationOffset.left = leftOffset;
+        },
         guid: function() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                 var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -402,41 +414,46 @@ windows = {
             });
         },
         fn: {
-            borderTopLeftMouseDown: function (e) {
-                throw 'NotYetImplementedException';
+            borderTopLeftMouseDown: function () {
+                var win = $(this).parents('.win-js-window');
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
             },
-            borderTopMiddleMouseDown: function (e) {
-                throw 'NotYetImplementedException';
+            borderTopMiddleMouseDown: function () {
+                var win = $(this).parents('.win-js-window');
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
             },
-            borderTopRightMouseDown: function (e) {
-                throw 'NotYetImplementedException';
+            borderTopRightMouseDown: function () {
+                var win = $(this).parents('.win-js-window');
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
             },
-            borderMiddleLeftMouseDown: function (e) {
-                throw 'NotYetImplementedException';
+            borderMiddleLeftMouseDown: function () {
+                var win = $(this).parents('.win-js-window');
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
             },
-            borderMiddleRightMouseDown: function (e) {
-                throw 'NotYetImplementedException';
+            borderMiddleRightMouseDown: function () {
+                var win = $(this).parents('.win-js-window');
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
             },
-            borderBottomLeftMouseDown: function (e) {
-                throw 'NotYetImplementedException';
+            borderBottomLeftMouseDown: function () {
+                var win = $(this).parents('.win-js-window');
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
             },
-            borderBottomMiddleMouseDown: function (e) {
-                throw 'NotYetImplementedException';
+            borderBottomMiddleMouseDown: function () {
+                var win = $(this).parents('.win-js-window');
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
             },
-            borderBottomRightMouseDown: function (e) {
-                throw 'NotYetImplementedException';
+            borderBottomRightMouseDown: function () {
+                var win = $(this).parents('.win-js-window');
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
             },
             wintbMouseDown: function(e) {
                 var win = $(this).parents('.win-js-window');
-                win.removeClass('win-js-movable');
-                win.addClass('win-js-moving');
                 var swot = win.offset();
-                windows._internal.transformingWindow.curWindow = win;
-                windows._internal.transformingWindow.translationOffset = {};
-				//todo: check this line, as this looks dodgy.
-                windows._internal.transformingWindow.translationOffset.top = e.pageY - swot.top < 5 ? 5 : e.pageY - swot.top;
-                if (!windows.isMaxedWindow(win)) windows._internal.transformingWindow.translationOffset.left = e.pageX - swot.left;
-                else windows._internal.transformingWindow.translationOffset.left = win.data('win-js-res-w') / 2;
+                windows._internal.setAsTranslating(win,
+                        //todo: check this line, as this looks dodgy.
+                        e.pageY - swot.top < 5 ? 5 : e.pageY - swot.top,
+                        windows.isMaxedWindow(win) ? win.data('win-js-res-w') / 2 : e.pageX - swot.left
+                );
                 windows.bringToFront(win);
                 return false;
             },
@@ -460,7 +477,7 @@ windows = {
                 if (windows._internal.transformingWindow.curWindow == null) return;
                 var win = windows._internal.transformingWindow.curWindow;
                 win.removeClass('win-js-moving');
-                win.addClass('win-js-movable');
+                win.removeClass('win-js-resizing');
                 if (windows.snapPossible == windows.snaps.top) {
                     windows.max(win);
                 } else {
@@ -468,7 +485,9 @@ windows = {
                 }
                 windows.snapPossible = null;
                 windows._internal.snapGuide.fadeOut();
-                windows._internal.transformingWindow = {};
+                windows._internal.transformingWindow.curWindow = null;
+                windows._internal.transformingWindow.scalingAnchor = null;
+                windows._internal.transformingWindow.translationOffset = {};
             },
             globalMouseMove: function (e) {
                 if (windows._internal.transformingWindow.curWindow == null) return;

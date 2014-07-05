@@ -138,7 +138,7 @@
 .win-js-window.win-js-movable > .win-js-main > .win-js-tb {
     cursor: url("../content/windows.js/handopen.cur"), default;
 }
-.win-js-window.win-js-moving > .win-js-main > .win-js-tb {
+.win-js-window.win-js-movable.win-js-moving > .win-js-main > .win-js-tb {
     cursor: url("../content/windows.js/handgrab.cur"), default;
 }
 .win-js-window > .win-js-main > .win-js-tb > img.win-js-icon {
