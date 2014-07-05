@@ -46,6 +46,7 @@ windows = {
     leftSnappedWindows: [],
     rightSnappedWindows: [],
     allWindows: [],
+    activeWindow: {},
     snaps: { top: "top", left: "left", right: "right" },
     load: function (settings) {
         $.extend(windows.settings, settings);
@@ -230,6 +231,8 @@ windows = {
         });
         focus.css({ 'z-index': windows.allWindows.length });
         win.addClass('win-js-active');
+        win.focus();
+        windows.activeWindow = win;
     },
     animate: function (win, css, func) {
         if (win == null || css == null) return;
