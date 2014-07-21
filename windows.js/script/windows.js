@@ -163,18 +163,17 @@ windows = {
     },
     resTo: function (win, css) {
         if (windows.isMaxedWindow(win)) {
-                windows._internal.removeMaxedWindow(win);
-                win.removeClass('win-js-maxed');
+            windows._internal.removeMaxedWindow(win);
+            win.removeClass('win-js-maxed');
         } else if (windows.isLeftSnappedWindow(win)) {
-                windows._internal.removeLeftSnappedWindow(win);
-                win.removeClass('win-js-snapped-left');
+            windows._internal.removeLeftSnappedWindow(win);
+            win.removeClass('win-js-snapped-left');
         } else if (windows.isRightSnappedWindow(win)) {
-                windows._internal.removeRightSnappedWindow(win);
-                win.removeClass('win-js-snapped-right');
+            windows._internal.removeRightSnappedWindow(win);
+            win.removeClass('win-js-snapped-right');
         } else return;
         windows.animate(win.stop(), css,
             function () {
-                win.data('win-js-animating', false);
                 win.data('win-js-res-t', null);
                 win.data('win-js-res-l', null);
                 win.data('win-js-res-w', null);
@@ -288,6 +287,35 @@ windows = {
         return result;
     },
     _internal: {
+        getTransformation: function (e) {
+            var win = windows._internal.transformingWindow.curWindow;
+            if (!win) return null;
+            var transformation = {
+                top: e.pageY - windows._internal.transformingWindow.translationOffset.top,
+                left: e.pageX - windows._internal.transformingWindow.translationOffset.left,
+            }
+            var boundary = parseInt(windows.settings.boundary);
+            if (boundary != null) {
+                if (transformation.top + win.height() > windows.settings.enclosure.height() + boundary) {
+                    transformation.top = (windows.settings.enclosure.height() + boundary)
+                        - windows._internal.transformingWindow.curWindow.height();
+                }
+                if (transformation.left + win.width() > windows.settings.enclosure.width() + boundary) {
+                    transformation.left = (windows.settings.enclosure.width() + boundary)
+                        - windows._internal.transformingWindow.curWindow.width();
+                    transformation.snap = windows.snaps.right;
+                }
+                if (transformation.top < -boundary) {
+                    transformation.top = -boundary;
+                    transformation.snap = windows.snaps.top;
+                }
+                if (transformation.left < -boundary) {
+                    transformation.left = -boundary;
+                    transformation.snap = windows.snaps.left;
+                }
+            }
+            return transformation;
+        },
         getSnapPosition: function (snap) {
             var boundary = parseInt(windows.settings.boundary);
             var activeWidth = windows.settings.enclosure.width();
@@ -329,6 +357,23 @@ windows = {
                     break;
                 default:
                     return null;
+            }
+        },
+        updateSnapGuide: function (win, snap) {
+            if (snap && !windows.snapPossible && !windows.isAnimating(win)) {
+                windows.snapPossible = snap;
+                var winOffset = win.offset();
+                var guidePosition = windows._internal.getSnapPosition(snap);
+                windows._internal.snapGuide.stop().css({
+                    opacity: 1,
+                    left: winOffset.left,
+                    top: winOffset.top,
+                    width: win.width(),
+                    height: win.height()
+                }).show().animate(guidePosition, windows.settings.speed);
+            } else if (!snap && windows.snapPossible) {
+                windows.snapPossible = null;
+                windows._internal.snapGuide.fadeOut();
             }
         },
         animateToMax: function (win) {
@@ -490,54 +535,19 @@ windows = {
                 windows._internal.transformingWindow.translationOffset = {};
             },
             globalMouseMove: function (e) {
-                if (windows._internal.transformingWindow.curWindow == null) return;
+                var transformation = windows._internal.getTransformation(e);
+                if (!transformation) return;
                 var win = windows._internal.transformingWindow.curWindow;
-                if (windows.isMaxedWindow(win) || windows.isLeftSnappedWindow(win) || windows.isRightSnappedWindow(win))
-                    windows.resTo(win, {
-                        width: win.data('win-js-res-w'),
-                        height: win.data('win-js-res-h')
-                    });
-                var proposedTop = e.pageY - windows._internal.transformingWindow.translationOffset.top;
-                var proposedLeft = e.pageX - windows._internal.transformingWindow.translationOffset.left;
-                var boundary = parseInt(windows.settings.boundary);
-                var snap = null;
-                if (boundary != null) {
-                    if (proposedTop + win.height() > windows.settings.enclosure.height() + boundary) {
-                        proposedTop = (windows.settings.enclosure.height() + boundary) - win.height();
-                    }
-                    if (proposedLeft + win.width() > windows.settings.enclosure.width() + boundary) {
-                        proposedLeft = (windows.settings.enclosure.width() + boundary) - win.width();
-                        snap = windows.snaps.right;
-                    }
-                    if (proposedTop < -boundary) {
-                        proposedTop = -boundary;
-                        snap = windows.snaps.top;
-                    }
-                    if (proposedLeft < -boundary) {
-                        proposedLeft = -boundary;
-                        snap = windows.snaps.left;
-                    }
-                }
+                windows.resTo(win, {
+                    width: win.data('win-js-res-w'),
+                    height: win.data('win-js-res-h')
+                });
                 win.css({
-                    top: proposedTop,
-                    left: proposedLeft,
+                    top: transformation.top,
+                    left: transformation.left,
                     position: 'absolute'
                 });
-                if (snap != null && !windows.snapPossible && !windows.isAnimating(win)) {
-                    windows.snapPossible = snap;
-                    var winOffset = win.offset();
-                    var guidePosition = windows._internal.getSnapPosition(snap);
-                    windows._internal.snapGuide.stop().css({
-                        opacity: 1,
-                        left: winOffset.left,
-                        top: winOffset.top,
-                        width: win.width(),
-                        height: win.height()
-                    }).show().animate(guidePosition, windows.settings.speed);
-                } else if (snap == null && windows.snapPossible) {
-                    windows.snapPossible = null;
-                    windows._internal.snapGuide.fadeOut();
-                }
+                windows._internal.updateSnapGuide(win, transformation.snap);
             },
             globalResize: function () {
                 for (var i = 0; i < windows.maxedWindows.length; i++)
