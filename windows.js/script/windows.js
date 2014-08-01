@@ -399,11 +399,11 @@ windows = {
                         transformation.top = -boundary;
                         transformation.height = currentDimensions.height + (currentDimensions.top - -boundary);
                     }
-                    if (transformation.left + transformation.width > enclosureDimensions.width + (boundary * 2)) {
-                        transformation.width = enclosureDimensions.width - transformation.left + (boundary * 2);
+                    if (transformation.left + transformation.width > enclosureDimensions.width + boundary) {
+                        transformation.width = enclosureDimensions.width - transformation.left + boundary;
                     }
-                    if (transformation.top + transformation.height > enclosureDimensions.height + (boundary * 2)) {
-                        transformation.height = enclosureDimensions.height - transformation.top + (boundary * 2);
+                    if (transformation.top + transformation.height > enclosureDimensions.height + boundary) {
+                        transformation.height = enclosureDimensions.height - transformation.top + boundary;
                     }
                 }
             }
