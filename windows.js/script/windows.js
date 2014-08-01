@@ -70,26 +70,28 @@ windows = {
         $.extend(ws, windows.presets.default);
         $.extend(ws, settings);
         if (enclosure == null) enclosure = windows.settings.enclosure;
-        var win, modal, tb, tb_title, tb_staters, tb_hide, tb_state, tb_close, tb_icon, main;
+        var win, modal, tb, tb_title, tb_staters, tb_hide, tb_state, tb_close, tb_icon,
+            bdr_tl, bdr_tr, bdr_t, bdr_l, bdr_r, bdr_bl, bdr_br, bdr_b, main;
         win = $('<div/>', { class: 'win-js-window', id: windows._internal.guid() });
         win.css({ top: ws.top, left: ws.left, width: ws.width, height: ws.height });
-        $('<div/>', { class: 'win-js-border win-js-border-topleft' })
-            .appendTo(win).mousedown(windows._internal.fn.borderTopLeftMouseDown);
-        $('<div/>', { class: 'win-js-border win-js-border-topright' })
-            .appendTo(win).mousedown(windows._internal.fn.borderTopRightMouseDown);
-        $('<div/>', { class: 'win-js-border win-js-border-top' })
-            .appendTo(win).mousedown(windows._internal.fn.borderTopMouseDown);
-        $('<div/>', { class: 'win-js-border win-js-border-left' })
-            .appendTo(win).mousedown(windows._internal.fn.borderLeftMouseDown);
-        $('<div/>', { class: 'win-js-border win-js-border-right' })
-            .appendTo(win).mousedown(windows._internal.fn.borderRightMouseDown);
-        $('<div/>', { class: 'win-js-border win-js-border-bottomleft' })
-            .appendTo(win).mousedown(windows._internal.fn.borderBottomLeftMouseDown);
-        $('<div/>', { class: 'win-js-border win-js-border-bottomright' })
-            .appendTo(win).mousedown(windows._internal.fn.borderBottomRightMouseDown);
-        $('<div/>', { class: 'win-js-border win-js-border-bottom' })
-            .appendTo(win).mousedown(windows._internal.fn.borderBottomMouseDown);
+        bdr_tl = $('<div/>', { class: 'win-js-border win-js-border-topleft' }).appendTo(win);
+        if (ws.resizable) bdr_tl.mousedown(windows._internal.fn.borderTopLeftMouseDown);
+        bdr_tr = $('<div/>', { class: 'win-js-border win-js-border-topright' }).appendTo(win);
+        if (ws.resizable) bdr_tr.mousedown(windows._internal.fn.borderTopRightMouseDown);
+        bdr_t = $('<div/>', { class: 'win-js-border win-js-border-top' }).appendTo(win);
+        if (ws.resizable) bdr_t.mousedown(windows._internal.fn.borderTopMouseDown);
+        bdr_l = $('<div/>', { class: 'win-js-border win-js-border-left' }).appendTo(win);
+        if (ws.resizable) bdr_l.mousedown(windows._internal.fn.borderLeftMouseDown);
+        bdr_r = $('<div/>', { class: 'win-js-border win-js-border-right' }).appendTo(win);
+        if (ws.resizable) bdr_r.mousedown(windows._internal.fn.borderRightMouseDown);
+        bdr_bl = $('<div/>', { class: 'win-js-border win-js-border-bottomleft' }).appendTo(win);
+        if (ws.resizable) bdr_bl.mousedown(windows._internal.fn.borderBottomLeftMouseDown);
+        bdr_br = $('<div/>', { class: 'win-js-border win-js-border-bottomright' }).appendTo(win);
+        if (ws.resizable) bdr_br.mousedown(windows._internal.fn.borderBottomRightMouseDown);
+        bdr_b = $('<div/>', { class: 'win-js-border win-js-border-bottom' }).appendTo(win);
+        if (ws.resizable) bdr_b.mousedown(windows._internal.fn.borderBottomMouseDown);
         main = $('<div/>', { class: 'win-js-main' }).appendTo(win);
+        if (ws.resizable) win.addClass('win-js-resizable');
         if (ws.movable) win.addClass('win-js-movable');
         tb = $('<div/>', { class: 'win-js-tb' }).appendTo(main);
         if (ws.icon) tb_icon = $('<img/>', { class: 'win-js-icon', src: ws.icon }).appendTo(tb);

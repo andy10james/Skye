@@ -31,6 +31,7 @@
 			state: false,
 			close: true,
 			movable: false,
+            resizable: false,
 			modal: true,
 			icon: null
 		});

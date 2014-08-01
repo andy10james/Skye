@@ -46,41 +46,57 @@
 }
 .win-js-window > .win-js-border-topleft {
     width: 4px; height: 4px;
+}
+.win-js-window.win-js-resizable > .win-js-border-topleft {
     cursor: nw-resize;
 }
 .win-js-window > .win-js-border-top {
     left: 4px; right: 4px;
     height: 4px; width: auto;
-    cursor: n-resize;
 }
+.win-js-window.win-js-resizable > .win-js-border-top {
+     cursor: n-resize;
+ }
 .win-js-window > .win-js-border-topright {
     right: 0;
     width: 4px; height: 4px;
+}
+.win-js-window.win-js-resizable > .win-js-border-topright {
     cursor: ne-resize;
 }
 .win-js-window > .win-js-border-bottomleft {
     bottom: 0; left: 0;
     width: 4px; height: 4px;
+}
+.win-js-window.win-js-resizable > .win-js-border-bottomleft {
     cursor: sw-resize;
 }
 .win-js-window > .win-js-border-bottom {
     bottom: 0; left: 4px; right: 4px;
     height: 4px; width: auto;
+}
+.win-js-window.win-js-resizable > .win-js-border-bottom {
     cursor: s-resize;
 }
 .win-js-window > .win-js-border-bottomright {
     bottom: 0; right: 0;
     width: 4px; height: 4px;
+}
+.win-js-window.win-js-resizable > .win-js-border-bottomright {
     cursor: se-resize;
 }
 .win-js-window > .win-js-border-left {
     left: 0; top: 4px; bottom: 4px;
     width: 4px;
+}
+.win-js-window.win-js-resizable > .win-js-border-left {
     cursor: w-resize;
 }
 .win-js-window > .win-js-border-right {
     right: 0; top: 4px; bottom: 4px;
     width: 4px;
+}
+.win-js-window.win-js-resizable > .win-js-border-right {
     cursor: e-resize;
 }
 .win-js-window > .win-js-main {
