@@ -1,8 +1,8 @@
 ﻿$(document).ready(function() {
 	windows.load({
 		enclosure: '.enclosure',
-		boundary: 0,
-		maxToBoundary: false,
+		boundary: -100,
+		maxToBoundary: true,
 		speed: 300
 	});
 	$('#createWindow').click(function () {

@@ -25,7 +25,6 @@
 }
 .win-js-window {
     box-shadow: 0 0 7px rgba(150, 90, 240, 0.8);
-    /*border: solid 1px #444;*/
     width: 600px;
     height: 750px;
     position: absolute;
@@ -36,7 +35,8 @@
 
 }
 .win-js-window.win-js-active {
-    border-color: rgba(150, 90, 240, 0.8);
+    border: solid 1px #95E;
+    border: solid 1px rgba(150, 90, 240, 0.8);
 }
 .win-js-window > .win-js-border {
     position: absolute;
@@ -48,7 +48,7 @@
     width: 4px; height: 4px;
     cursor: nw-resize;
 }
-.win-js-window > .win-js-border-topmiddle {
+.win-js-window > .win-js-border-top {
     left: 4px; right: 4px;
     height: 4px; width: auto;
     cursor: n-resize;
@@ -63,7 +63,7 @@
     width: 4px; height: 4px;
     cursor: sw-resize;
 }
-.win-js-window > .win-js-border-bottommiddle {
+.win-js-window > .win-js-border-bottom {
     bottom: 0; left: 4px; right: 4px;
     height: 4px; width: auto;
     cursor: s-resize;
@@ -73,12 +73,12 @@
     width: 4px; height: 4px;
     cursor: se-resize;
 }
-.win-js-window > .win-js-border-middleleft {
+.win-js-window > .win-js-border-left {
     left: 0; top: 4px; bottom: 4px;
     width: 4px;
     cursor: w-resize;
 }
-.win-js-window > .win-js-border-middleright {
+.win-js-window > .win-js-border-right {
     right: 0; top: 4px; bottom: 4px;
     width: 4px;
     cursor: e-resize;

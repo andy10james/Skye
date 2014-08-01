@@ -22,6 +22,7 @@ windows = {
             state: true,
             close: true,
             movable: true,
+            resizable: true,
             modal: false,
             icon: null
         },
@@ -35,6 +36,7 @@ windows = {
             state: false,
             close: false,
             movable: false,
+            resizable: false,
             modal: true,
             icon: null
         }
@@ -47,7 +49,12 @@ windows = {
     rightSnappedWindows: [],
     allWindows: [],
     activeWindow: {},
-    snaps: { top: "top", left: "left", right: "right" },
+    snaps: {
+        top: "top",
+        left: "left",
+        right: "right"
+    },
+    snapPossible: null,
     load: function (settings) {
         $.extend(windows.settings, settings);
         windows.settings.enclosure = $(windows.settings.enclosure);
@@ -69,19 +76,19 @@ windows = {
         $('<div/>', { class: 'win-js-border win-js-border-topleft' })
             .appendTo(win).mousedown(windows._internal.fn.borderTopLeftMouseDown);
         $('<div/>', { class: 'win-js-border win-js-border-topright' })
-            .appendTo(win).mousedown(windows._internal.fn.borderTopMiddleMouseDown);
-        $('<div/>', { class: 'win-js-border win-js-border-topmiddle' })
             .appendTo(win).mousedown(windows._internal.fn.borderTopRightMouseDown);
-        $('<div/>', { class: 'win-js-border win-js-border-middleleft' })
-            .appendTo(win).mousedown(windows._internal.fn.borderMiddleLeftMouseDown);
-        $('<div/>', { class: 'win-js-border win-js-border-middleright' })
-            .appendTo(win).mousedown(windows._internal.fn.borderMiddleRightMouseDown);
+        $('<div/>', { class: 'win-js-border win-js-border-top' })
+            .appendTo(win).mousedown(windows._internal.fn.borderTopMouseDown);
+        $('<div/>', { class: 'win-js-border win-js-border-left' })
+            .appendTo(win).mousedown(windows._internal.fn.borderLeftMouseDown);
+        $('<div/>', { class: 'win-js-border win-js-border-right' })
+            .appendTo(win).mousedown(windows._internal.fn.borderRightMouseDown);
         $('<div/>', { class: 'win-js-border win-js-border-bottomleft' })
             .appendTo(win).mousedown(windows._internal.fn.borderBottomLeftMouseDown);
         $('<div/>', { class: 'win-js-border win-js-border-bottomright' })
-            .appendTo(win).mousedown(windows._internal.fn.borderBottomMiddleMouseDown);
-        $('<div/>', { class: 'win-js-border win-js-border-bottommiddle' })
             .appendTo(win).mousedown(windows._internal.fn.borderBottomRightMouseDown);
+        $('<div/>', { class: 'win-js-border win-js-border-bottom' })
+            .appendTo(win).mousedown(windows._internal.fn.borderBottomMouseDown);
         main = $('<div/>', { class: 'win-js-main' }).appendTo(win);
         if (ws.movable) win.addClass('win-js-movable');
         tb = $('<div/>', { class: 'win-js-tb' }).appendTo(main);
@@ -287,31 +294,117 @@ windows = {
         return result;
     },
     _internal: {
+        snapGuide: null,
+        transformingWindow: {
+            curWindow: null,
+            translationOffset: null,
+            scalingAnchor: null
+        },
+        scalingAnchor: {
+            top: "top",
+            topLeft: "topLeft",
+            topRight: "topRight",
+            left: "left",
+            right: "right",
+            bottom: "bottom",
+            bottomLeft: "bottomLeft",
+            bottomRight: "bottomRight"
+        },
         getTransformation: function (e) {
             var win = windows._internal.transformingWindow.curWindow;
             if (!win) return null;
-            var transformation = {
-                top: e.pageY - windows._internal.transformingWindow.translationOffset.top,
-                left: e.pageX - windows._internal.transformingWindow.translationOffset.left,
-            }
             var boundary = parseInt(windows.settings.boundary);
-            if (boundary != null) {
-                if (transformation.top + win.height() > windows.settings.enclosure.height() + boundary) {
-                    transformation.top = (windows.settings.enclosure.height() + boundary)
-                        - windows._internal.transformingWindow.curWindow.height();
+            var currentDimensions = $.extend(win.offset(), {
+                width: win.width(), height: win.height()
+            });
+            var transformation = {
+                top: currentDimensions.top,
+                left: currentDimensions.left,
+                width: null,
+                height: null
+            }
+            if (windows._internal.transformingWindow.translationOffset) {
+                transformation.top = e.pageY - windows._internal.transformingWindow.translationOffset.top;
+                transformation.left = e.pageX - windows._internal.transformingWindow.translationOffset.left;
+                if (boundary != null) {
+                    if (windows._internal.transformingWindow.translationOffset ||
+                        windows._internal.transformingWindow.scalingAnchor == windows._internal.scalingAnchor.left ||
+                        windows._internal.transformingWindow.scalingAnchor == windows._internal.scalingAnchor.top) {
+                        if (transformation.top < -boundary) {
+                            transformation.top = -boundary;
+                            transformation.snap = windows.snaps.top;
+                        }
+                        if (transformation.left < -boundary) {
+                            transformation.left = -boundary;
+                            transformation.snap = windows.snaps.left;
+                        }
+                        if (transformation.left + currentDimensions.width > windows.settings.enclosure.width() + boundary) {
+                            transformation.left = (windows.settings.enclosure.width() + boundary)
+                                - windows._internal.transformingWindow.curWindow.width();
+                            transformation.snap = windows.snaps.right;
+                        }
+                        if (transformation.top + currentDimensions.height > windows.settings.enclosure.height() + boundary) {
+                            transformation.top = (windows.settings.enclosure.height() + boundary)
+                                - windows._internal.transformingWindow.curWindow.height();
+                        }
+                    }
                 }
-                if (transformation.left + win.width() > windows.settings.enclosure.width() + boundary) {
-                    transformation.left = (windows.settings.enclosure.width() + boundary)
-                        - windows._internal.transformingWindow.curWindow.width();
-                    transformation.snap = windows.snaps.right;
+            }
+            if (windows._internal.transformingWindow.scalingAnchor) {
+                switch (windows._internal.transformingWindow.scalingAnchor) {
+                    case windows._internal.scalingAnchor.right:
+                        transformation.width = e.pageX - currentDimensions.left;
+                        break;
+                    case windows._internal.scalingAnchor.bottom:
+                        transformation.height = e.pageY - currentDimensions.top;
+                        break;
+                    case windows._internal.scalingAnchor.bottomRight:
+                        transformation.width = e.pageX - currentDimensions.left;
+                        transformation.height = e.pageY - currentDimensions.top;
+                        break;
+                    case windows._internal.scalingAnchor.top:
+                        transformation.top = e.pageY;
+                        transformation.height = currentDimensions.height + (currentDimensions.top - e.pageY);
+                        break;
+                    case windows._internal.scalingAnchor.left:
+                        transformation.left = e.pageX;
+                        transformation.width = currentDimensions.width + (currentDimensions.left - e.pageX);
+                        break;
+                    case windows._internal.scalingAnchor.topLeft:
+                        transformation.top = e.pageY;
+                        transformation.height = currentDimensions.height + (currentDimensions.top - e.pageY);
+                        transformation.left = e.pageX;
+                        transformation.width = currentDimensions.width + (currentDimensions.left - e.pageX);
+                        break;
+                    case windows._internal.scalingAnchor.topRight:
+                        transformation.top = e.pageY;
+                        transformation.height = currentDimensions.height + (currentDimensions.top - e.pageY);
+                        transformation.width = e.pageX - currentDimensions.left;
+                        break;
+                    case windows._internal.scalingAnchor.bottomLeft:
+                        transformation.height = e.pageY - currentDimensions.top;
+                        transformation.left = e.pageX;
+                        transformation.width = currentDimensions.width + (currentDimensions.left - e.pageX);
                 }
-                if (transformation.top < -boundary) {
-                    transformation.top = -boundary;
-                    transformation.snap = windows.snaps.top;
-                }
-                if (transformation.left < -boundary) {
-                    transformation.left = -boundary;
-                    transformation.snap = windows.snaps.left;
+                if (boundary != null) {
+                    var enclosureDimensions =  {
+                        width: windows.settings.enclosure.width(),
+                        height: windows.settings.enclosure.height()
+                    }
+                    if (transformation.left < -boundary) {
+                        transformation.left = -boundary;
+                        transformation.width = currentDimensions.width + (currentDimensions.left - -boundary);
+                    }
+                    if (transformation.top < -boundary) {
+                        transformation.top = -boundary;
+                        transformation.height = currentDimensions.height + (currentDimensions.top - -boundary);
+                    }
+                    if (transformation.left + transformation.width > enclosureDimensions.width + (boundary * 2)) {
+                        transformation.width = enclosureDimensions.width - transformation.left + (boundary * 2);
+                    }
+                    if (transformation.top + transformation.height > enclosureDimensions.height + (boundary * 2)) {
+                        transformation.height = enclosureDimensions.height - transformation.top + (boundary * 2);
+                    }
                 }
             }
             return transformation;
@@ -444,13 +537,13 @@ windows = {
             win.addClass('win-js-resizing');
             windows._internal.transformingWindow.curWindow = win;
             windows._internal.transformingWindow.scalingAnchor = anchor;
-
         },
         setAsTranslating: function (win, topOffset, leftOffset) {
             win.addClass('win-js-moving');
             windows._internal.transformingWindow.curWindow = win;
-            windows._internal.transformingWindow.translationOffset.top = topOffset;
-            windows._internal.transformingWindow.translationOffset.left = leftOffset;
+            windows._internal.transformingWindow.translationOffset = {
+                top: topOffset, left: leftOffset
+            }
         },
         guid: function() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -459,37 +552,37 @@ windows = {
             });
         },
         fn: {
-            borderTopLeftMouseDown: function () {
+            borderTopMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
-                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.top);
             },
-            borderTopMiddleMouseDown: function () {
+            borderTopLeftMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
                 windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
             },
             borderTopRightMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
-                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topRight);
             },
-            borderMiddleLeftMouseDown: function () {
+            borderLeftMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
-                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.left);
             },
-            borderMiddleRightMouseDown: function () {
+            borderRightMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
-                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.right);
+            },
+            borderBottomMouseDown: function () {
+                var win = $(this).parents('.win-js-window');
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.bottom);
             },
             borderBottomLeftMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
-                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
-            },
-            borderBottomMiddleMouseDown: function () {
-                var win = $(this).parents('.win-js-window');
-                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.bottomLeft);
             },
             borderBottomRightMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
-                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
+                windows._internal.setAsScaling(win, windows._internal.scalingAnchor.bottomRight);
             },
             wintbMouseDown: function(e) {
                 var win = $(this).parents('.win-js-window');
@@ -532,7 +625,7 @@ windows = {
                 windows._internal.snapGuide.fadeOut();
                 windows._internal.transformingWindow.curWindow = null;
                 windows._internal.transformingWindow.scalingAnchor = null;
-                windows._internal.transformingWindow.translationOffset = {};
+                windows._internal.transformingWindow.translationOffset = null;
             },
             globalMouseMove: function (e) {
                 var transformation = windows._internal.getTransformation(e);
@@ -545,7 +638,8 @@ windows = {
                 win.css({
                     top: transformation.top,
                     left: transformation.left,
-                    position: 'absolute'
+                    width: transformation.width,
+                    height: transformation.height
                 });
                 windows._internal.updateSnapGuide(win, transformation.snap);
             },
@@ -557,19 +651,8 @@ windows = {
                 for (var i = 0; i < windows.rightSnappedWindows.length; i++)
                     windows.animate(windows.rightSnappedWindows[i], windows._internal.getSnapPosition(windows.snaps.right));
             }
-        },
-        snapGuide: null,
-        transformingWindow: {
-            curWindow: null,
-            translationOffset: {
-                top: 0,
-                left: 0
-            },
-            scalingAnchor: null
-        },
-        scalingAnchor: { topLeft: "topLeft", top: "top", topRight: "topRight", centerLeft: "left", centerRight: "right", bottomLeft: "bottomLeft", bottom: "bottom", bottomRight: "bottomRight" }
-    },
-    snapPossible: null
+        }
+    }
 };
 $.fn.openWindow = function(settings) {
     return windows.open(settings, $(this));
