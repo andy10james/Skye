@@ -27,6 +27,8 @@
     box-shadow: 0 0 7px rgba(150, 90, 240, 0.8);
     width: 600px;
     height: 750px;
+    min-height: 33px;
+    min-width: 200px;
     position: absolute;
     background-color: #444;
     margin: 0;
