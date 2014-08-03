@@ -132,13 +132,18 @@ windows = {
             windows._internal.removeRightSnappedWindow(win);
             win.removeClass('win-js-snapped-right');
         }
-        if (win.data('win-js-res-t') == null) win.data('win-js-res-t', win.offset().top);
-        if (win.data('win-js-res-l') == null) win.data('win-js-res-l', win.offset().left);
-        if (win.data('win-js-res-w') == null) win.data('win-js-res-w', win.width());
-        if (win.data('win-js-res-h') == null) win.data('win-js-res-h', win.height());
+        var currentDimensions = $.extend(win.offset(), {
+            width: win.width(), height: win.height()
+        });
+        if (win.data('win-js-res-t') == null) win.data('win-js-res-t', currentDimensions.top);
+        if (win.data('win-js-res-l') == null) win.data('win-js-res-l', currentDimensions.left);
+        if (win.data('win-js-res-w') == null) win.data('win-js-res-w', currentDimensions.width);
+        if (win.data('win-js-res-h') == null) win.data('win-js-res-h', currentDimensions.height);
         win.addClass('win-js-maxed');
-        windows._internal.animateToMax(win);
-        windows.maxedWindows.push(win);
+        windows._internal.animateToMax(win, function () {
+            win.addClass('win-js-maxed');
+            windows.maxedWindows.push(win);
+        });
     },
     snap: function (win, snap) {
         if (snap == windows.snaps.top) {
@@ -471,7 +476,7 @@ windows = {
                 windows._internal.snapGuide.fadeOut();
             }
         },
-        animateToMax: function (win) {
+        animateToMax: function (win, func) {
             win.stop();
             var top = windows.settings.enclosure.offset().top;
             var left = windows.settings.enclosure.offset().left;
@@ -493,7 +498,7 @@ windows = {
                 left: left,
                 width: width,
                 height: height
-            });
+            }, func);
         },
         removeAnimatingWindow: function (win) {
             $.each(windows.animatingWindows, function (k, v) {
@@ -557,34 +562,42 @@ windows = {
             borderTopMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
                 windows._internal.setAsScaling(win, windows._internal.scalingAnchor.top);
+                return false;
             },
             borderTopLeftMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
                 windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topLeft);
+                return false;
             },
             borderTopRightMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
                 windows._internal.setAsScaling(win, windows._internal.scalingAnchor.topRight);
+                return false;
             },
             borderLeftMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
                 windows._internal.setAsScaling(win, windows._internal.scalingAnchor.left);
+                return false;
             },
             borderRightMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
                 windows._internal.setAsScaling(win, windows._internal.scalingAnchor.right);
+                return false;
             },
             borderBottomMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
                 windows._internal.setAsScaling(win, windows._internal.scalingAnchor.bottom);
+                return false;
             },
             borderBottomLeftMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
                 windows._internal.setAsScaling(win, windows._internal.scalingAnchor.bottomLeft);
+                return false;
             },
             borderBottomRightMouseDown: function () {
                 var win = $(this).parents('.win-js-window');
                 windows._internal.setAsScaling(win, windows._internal.scalingAnchor.bottomRight);
+                return false;
             },
             wintbMouseDown: function(e) {
                 var win = $(this).parents('.win-js-window');
