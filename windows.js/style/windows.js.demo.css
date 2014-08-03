@@ -2,7 +2,8 @@
     height: 100%;
 }
 body {
-    background: #AAA url("../content/bg.jpg") fixed;
+    background: #AAA url("../content/retina4.jpg") fixed;
+    background-size: cover;
     font-family: 'Segoe UI', Arial, Sans-serif;
     height: 100%;
     margin: 0;

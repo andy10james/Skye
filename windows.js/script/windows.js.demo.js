@@ -1,7 +1,7 @@
 ﻿$(document).ready(function() {
 	windows.load({
 		enclosure: '.enclosure',
-		boundary: -100,
+		boundary: 0,
 		maxToBoundary: true,
 		speed: 300
 	});
