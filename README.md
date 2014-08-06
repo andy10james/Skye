@@ -1,4 +1,4 @@
-Skye.Mercury.1.0.0
+Skye (Mercury v1.0.0)
 =====================
 - - -
 **Current stable version**: Mercury 0.9.7
