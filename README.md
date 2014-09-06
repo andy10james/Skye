@@ -1,26 +1,29 @@
-Originally to support Neural project's web server interface, windows.js is a JavaScript library, focused on adding a cascading and fully functional panel / 'windows' interface easily to a developer's webpages. This will include vast customisation options for the developer, and will be released open-source. 
+Skye (Mercury v1.0.0)
+=====================
+- - -
+**Current stable version**: Mercury 0.9.7
+- - -
+**Current development version**: Mercury 1.0.0
+- - -
 
-Currently working towards version 1.0.0 (Mercury);
+Skye is the unique JavaScript library, enabling developers to easily create agile interface panels (known as Skyes) to their interfaces. Skye has come on a long journey in its development, it has seen many faces and trials, however, now with it's flexibility in customisation and a highly robust feature set, I hope you find developing with Skye as much fun as I found developing for it!
 
-```
-#!javascript
+Skye is released under the GNU General Public License, version 3 (GPL-3.0), readable at http://opensource.org/licenses/GPL-3.0.
+© 2014 kana.dev / Andy James (me@andyjames.it)
 
-/*! windows.js.mercury (v1.0.0) | © 2014 Andrew James (me@andyjames.it) | 
-Released under the GNU General Public License, version 3 (GPL-3.0)
-http://opensource.org/licenses/GPL-3.0 
-*/
-```
+- - -
+**How do I get set up?**
 
-
-### How do I get set up? ###
-
-* windows.js works on the latest JQuery, to get jQuery visit http://jquery.com/
-* Add both windows.js and windows.js.css into your HTML
+* Skye was developed with jQuery 2.1.0, to get jQuery visit http://jquery.com/
+* Add both *skye.mercury.1.0.0.min.js* and *skye.mercury.1.0.0.css* into your HTML
+* Add the skye images to the appropriate folder (modifying references in *skye.mercury.1.0.0.css* if necessary)
 * Your ready to go, everything you need is in the Windows namespace; go ahead and try Windows.create();
+
+- - -
 
 ```
 #!html
-<link href="style/windows.js.css" rel="stylesheet" type="text/css" />
+<link href="style/skye.mercury.1.0.0.css" rel="stylesheet" type="text/css" />
 <script src="script/jquery.2.1.0.js" type="text/javascript"></script>
-<script src="script/windows.js" type="text/javascript"></script>
+<script src="script/skye.mercury.1.0.0.min.js" type="text/javascript"></script>
 ```
