@@ -1,0 +1,293 @@
+﻿/*! skye.mercury (v1.0.0) | © 2014 Andrew James (me@andyjames.it) |
+Released under the GNU General Public License, version 3 (GPL-3.0)
+http://opensource.org/licenses/GPL-3.0
+*/
+
+/* Content refereces */
+.skye-window > .skye-main > .skye-tb > .skye-staters > .skye-hide {
+    background-image: url("../content/skye/min.png");
+}
+.skye-window > .skye-main > .skye-tb > .skye-staters > .skye-hide:hover {
+    background-image: url("../content/skye/min.hover.png");
+}
+.skye-window > .skye-main > .skye-tb > .skye-staters > .skye-state {
+    background-image: url("../content/skye/max.png");
+}
+.skye-window > .skye-main > .skye-tb > .skye-staters > .skye-state:hover {
+    background-image: url("../content/skye/max.hover.png");
+}
+.skye-window.skye-maxed > .skye-main > .skye-tb > .skye-staters > .skye-state {
+    background-image: url("../content/skye/res.png");
+}
+.skye-window.skye-maxed > .skye-main > .skye-tb > .skye-staters > .skye-state:hover {
+    background-image: url("../content/skye/res.hover.png");
+}
+.skye-window > .skye-main > .skye-tb > .skye-staters > .skye-close {
+    background-image: url("../content/skye/close.png");
+}
+.skye-window > .skye-main > .skye-tb > .skye-staters > .skye-close:hover {
+    background-image: url("../content/skye/close.hover.png");
+}
+.skye-window.skye-movable > .skye-main > .skye-tb {
+    cursor: url("../content/skye/handopen.cur"), default;
+}
+.skye-window.skye-movable.skye-moving > .skye-main > .skye-tb {
+    cursor: url("../content/skye/handgrab.cur"), default;
+}
+/* End of content references */
+
+body .skye-enclosure {
+    overflow: hidden;
+    display: block;
+}
+.skye-modal {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #171717;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.skye-snap {
+    position: absolute;
+    left: 50%;
+    right: 50px;
+    top: 50px;
+    bottom: 50px;
+    width: auto;
+    height: auto;
+    background-color: rgba(150, 90, 240, 0.1);
+    box-shadow: 0 0 7px rgba(150, 90, 240, 0.3);
+}
+.skye-window {
+    box-shadow: 0 0 7px rgba(150, 90, 240, 0.8);
+    border-style:  solid;
+    border-width: 1px;
+    border-color: #AAA;
+    border-color: rgba(255, 255, 255, 0.6);
+    width: 600px;
+    height: 750px;
+    min-height: 33px;
+    min-width: 200px;
+    position: absolute;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 4px;
+}
+.skye-window.skye-maxed {
+    border-radius: 0px;
+}
+.skye-window.skye-active {
+    border: solid 1px #95E;
+    border: solid 1px rgba(150, 90, 240, 0.8);
+}
+.skye-window > .skye-border {
+    background-color: #B8B8B8;
+    background-color: rgba(255,255,255,.4);
+    position: absolute;
+}
+.skye-window.skye-maxed > .skye-border {
+    display: none;
+}
+.skye-window > .skye-border-topleft {
+    width: 4px;
+    height: 4px;
+}
+.skye-window.skye-resizable > .skye-border-topleft {
+    cursor: nw-resize;
+}
+.skye-window > .skye-border-top {
+    left: 4px;
+    right: 4px;
+    height: 4px;
+    width: auto;
+}
+.skye-window.skye-resizable > .skye-border-top {
+     cursor: n-resize;
+ }
+.skye-window > .skye-border-topright {
+    right: 0;
+    width: 4px;
+    height: 4px;
+}
+.skye-window.skye-resizable > .skye-border-topright {
+    cursor: ne-resize;
+}
+.skye-window > .skye-border-bottomleft {
+    bottom: 0;
+    left: 0;
+    width: 4px;
+    height: 4px;
+}
+.skye-window.skye-resizable > .skye-border-bottomleft {
+    cursor: sw-resize;
+}
+.skye-window > .skye-border-bottom {
+    bottom: 0;
+    left: 4px;
+    right: 4px;
+    height: 4px;
+    width: auto;
+}
+.skye-window.skye-resizable > .skye-border-bottom {
+    cursor: s-resize;
+}
+.skye-window > .skye-border-bottomright {
+    bottom: 0;
+    right: 0;
+    width: 4px;
+    height: 4px;
+}
+.skye-window.skye-resizable > .skye-border-bottomright {
+    cursor: se-resize;
+}
+.skye-window > .skye-border-left {
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 4px;
+}
+.skye-window.skye-resizable > .skye-border-left {
+    cursor: w-resize;
+}
+.skye-window > .skye-border-right {
+    right: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 4px;
+}
+.skye-window.skye-resizable > .skye-border-right {
+    cursor: e-resize;
+}
+.skye-window > .skye-main {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    height: auto;
+    width: auto;
+}
+.skye-window.skye-maxed > .skye-main {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.skye-window > .skye-main > .skye-content {
+    position: absolute;
+    background-color: white;
+    height: auto;
+    width: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 25px;
+}
+.skye-window.skye-maxed > .skye-main > .skye-content {
+    top: 29px;
+}
+.skye-window > .skye-main > .skye-tb {
+    background-color: #B8B8B8;
+    background-color: rgba(255,255,255,.4);
+    color: #181818;
+    text-shadow: #FFF 0 0 5px;
+    font-size: small;
+    cursor: default;
+    padding-bottom: 2px;
+    height: 23px;
+    position: relative;
+}
+.skye-window.skye-maxed > .skye-main > .skye-tb {
+    height: 27px;
+}
+.skye-window.skye-maxed > .skye-main > .skye-tb > img.skye-icon {
+    padding-top: 7px;
+    padding-right: 0px;
+    padding-left: 9px;
+}
+.skye-window.skye-maxed > .skye-main > .skye-tb > .skye-title {
+    padding-top: 8.5px;
+    padding-left: 9px
+ }
+.skye-window.skye-maxed > .skye-main > .skye-tb > .skye-staters {
+    padding-top: 5px;
+    padding-right: 6px;
+}
+.skye-window.skye-movable > .skye-main > .skye-tb {
+
+}
+.skye-window.skye-movable.skye-moving > .skye-main > .skye-tb {
+
+}
+.skye-window > .skye-main > .skye-tb > img.skye-icon {
+    padding: 3px 6px 8px;
+    height: 16px;
+    cursor: default;
+    float: left;
+}
+.skye-window > .skye-main > .skye-tb > .skye-title {
+    display: block;
+    line-height: 13px;
+    padding: 4.5px 4px 10px;
+    width: auto;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.skye-window > .skye-main > .skye-tb > .skye-staters {
+    cursor: default;
+    float: right;
+    padding-right: 2px;
+    padding-bottom: 2px;
+}
+.skye-window > .skye-main > .skye-tb > .skye-staters > .skye-hide {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: 5px 5px;
+    background-size: auto 10px;
+    cursor: default;
+    height: 10px;
+    width: 14px;
+    padding: 5px;
+}
+.skye-window > .skye-main > .skye-tb > .skye-staters > .skye-hide:hover {
+
+}
+.skye-window > .skye-main > .skye-tb > .skye-staters > .skye-state {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: 5px 5px;
+    background-size: 14px;
+    cursor: default;
+    height: 10px;
+    width: 17px;
+    padding: 5px;
+}
+.skye-window > .skye-main > .skye-tb > .skye-staters > .skye-state:hover {
+
+}
+.skye-window.skye-maxed > .skye-main > .skye-tb > .skye-staters > .skye-state {
+    background-size: 10px;
+    width: 14px;
+}
+.skye-window.skye-maxed > .skye-main > .skye-tb > .skye-staters > .skye-state:hover {
+
+}
+.skye-window > .skye-main > .skye-tb > .skye-staters > .skye-close {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: 5px 5px;
+    background-size: auto 10px;
+    cursor: default;
+    height: 10px;
+    width: 10px;
+    padding: 5px;
+}
+.skye-window > .skye-main > .skye-tb > .skye-staters > .skye-close:hover {
+
+}
+.skye-clear {
+    clear: both;
+}
