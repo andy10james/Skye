@@ -379,11 +379,13 @@ skye = {
                 left: currentDimensions.left,
                 width: null,
                 height: null
-            }
+            };
             if (skye._internal.transformingSkye.translationOffset) {
-                transformation.top = e.pageY - skye._internal.transformingSkye.translationOffset.top;
-                transformation.left = e.pageX - skye._internal.transformingSkye.translationOffset.left;
-                if (boundary != null) {
+                var offsetTop = skye._internal.transformingSkye.translationOffset.top;
+                var offsetLeft = skye._internal.transformingSkye.translationOffset.left;
+                transformation.top = e.pageY - offsetTop;
+                transformation.left = e.pageX - offsetLeft;
+                if (boundary != null && !isNaN(boundary)) {
                     if (skye._internal.transformingSkye.translationOffset ||
                         skye._internal.transformingSkye.scalingAnchor == skye._internal.scalingAnchor.left ||
                         skye._internal.transformingSkye.scalingAnchor == skye._internal.scalingAnchor.top) {
@@ -443,7 +445,7 @@ skye = {
                         transformation.left = e.pageX;
                         transformation.width = currentDimensions.width + (currentDimensions.left - e.pageX);
                 }
-                if (boundary != null) {
+                if (boundary != null && !isNaN(boundary)) {
                     var enclosureDimensions =  {
                         width: skye.settings.enclosure.width(),
                         height: skye.settings.enclosure.height()
@@ -473,7 +475,7 @@ skye = {
             var leftSnap = 0;
             var topSnap = 0;
             if (skye.settings.maxToBoundary) {
-                if (boundary != null) {
+                if (boundary != null && !isNaN(boundary)) {
                     activeWidth = activeWidth + (boundary * 2);
                     activeHeight = activeHeight + (boundary * 2);
                     leftSnap = leftSnap - boundary;
@@ -536,7 +538,7 @@ skye = {
                 - parseInt(skye_obj.css('border-bottom-width')) - parseInt(skye_obj.css('padding-top')) - parseInt(skye_obj.css('padding-top'));
             if (skye.settings.maxToBoundary) {
                 var boundary = parseInt(skye.settings.boundary);
-                if (boundary != null) {
+                if (boundary != null && !isNaN(boundary)) {
                     top = top - boundary;
                     left = left - boundary;
                     width = width + 2 * boundary;
@@ -677,7 +679,8 @@ skye = {
                 var offset = skye_obj.offset();
                 skye._internal.setAsTranslating(skye_obj,
                     e.pageY - offset.top < 5 ? 5 : e.pageY - offset.top,
-                    skye.isMaxedWindow(skye_obj) ? skye_obj.data(skye.data.restoreWidth) / 2 : e.pageX - offset.left
+                    skye.isMaxedWindow(skye_obj) || skye.isRightSnappedWindow(skye_obj) || skye.isLeftSnappedWindow(skye_obj) ?
+                        skye_obj.data(skye.data.restoreWidth) / 2 : e.pageX - offset.left
                 );
                 skye.bringToFront(skye_obj);
                 return false;

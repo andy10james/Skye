@@ -67,7 +67,7 @@ nav > li {
     width: 42px;
     height: 24px;
     cursor: pointer;
-    margin: 8px 12px 8px 0;
+    margin: 8px 12px 5px 0;
 }
 nav > li#create {
     background-image: url('../content/create.png');
