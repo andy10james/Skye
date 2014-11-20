@@ -1,0 +1,141 @@
+﻿html {
+    height: 100%;
+}
+body {
+    background: #AAA url("../content/background.jpg") fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', Arial, Sans-serif;
+    height: 100%;
+    margin: 0;
+}
+
+.taskbar {
+    width: 100%;
+    height: 40px;
+    box-shadow: 0 0 7px rgba(150, 90, 240, 0.8);
+    border-style: solid none ;
+    border-width: 1px;
+    border-color: #AAA;
+    border-color: rgba(255, 255, 255, 0.6);
+    background-color: #B8B8B8;
+    background-color: rgba(255,255,255,.4);
+    text-shadow: 0 0 3px #000;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+}
+.enclosure {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 0;
+}
+
+.taskbar .openmenu {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: inline-block;
+    height: 24px;
+    width: 55px;
+    margin: 8px 0 8px 10px;
+    background-image: url('../content/kana.dangos.light.png');
+    background-size: auto 100%  ;
+    background-repeat: no-repeat;
+    background-position: center center;
+    cursor: pointer;
+}
+.taskbar .openmenu:hover {
+    background-image: url('../content/kana.dangos.color.blind.png');
+}
+nav {
+    display: none;
+    z-index: 1;
+    list-style: none inside;
+    overflow: hidden;
+    margin-left: 12px;
+    width: 180px;
+}
+nav > li {
+    display: inline-block;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    width: 42px;
+    height: 24px;
+    cursor: pointer;
+    margin: 8px 12px 5px 0;
+}
+nav > li#create {
+    background-image: url('../content/create.png');
+}
+nav > li#createModal {
+    background-image: url('../content/createmodal.png');
+}
+nav > li#create:hover {
+    background-image: url('../content/create-hover.png');
+}
+nav > li#createModal:hover {
+    background-image: url('../content/createmodal-hover.png');
+}
+nav > li#closeAll {
+    background-image: url('../content/closeall.png');
+}
+nav > li#closeAll:hover {
+    background-image: url('../content/closeall-hover.png');
+}
+
+.splash {
+    background-color: #282828;
+    position: absolute;
+    top: 0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+}
+.splash .information {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    font-size: small;
+    font-family: 'Segoe UI Light', 'Segoe UI', Arial, Sans-serif;
+    font-weight: normal;
+    text-align: left;
+    color: white;
+}
+.splash .information h1, h2 {
+    font-size: inherit;
+    font-weight: inherit;
+    margin: inherit;
+}
+.splash .information h1 {
+    color: #7050aa;
+}
+.splash a {
+    color: inherit;
+    text-decoration: inherit;
+}
+.splash a:hover {
+    text-decoration: underline;
+}
+.splash img {
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
+    width: 150px;
+}
+
+#modal {
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+}
