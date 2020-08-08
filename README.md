@@ -1,10 +1,5 @@
-Skye (Mercury v1.0.0)
+Skye (Mercury)
 =====================
-- - -
-**Current stable version**: Mercury 0.9.7
-- - -
-**Current development version**: Mercury 1.0.0
-- - -
 
 Skye is the unique JavaScript library, enabling developers to easily create agile interface panels (known as Skyes) to their interfaces. Skye has come on a long journey in its development, it has seen many faces and trials, however, now with it's flexibility in customisation and a highly robust feature set, I hope you find developing with Skye as much fun as I found developing for it!
 
